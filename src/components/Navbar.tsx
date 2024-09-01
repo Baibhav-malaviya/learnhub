@@ -15,7 +15,6 @@ const NavigationBar = () => {
 		{ name: "Home", href: "/" },
 		{ name: "My Course", href: "/my-courses" },
 		{ name: "Blog", href: "/blog" },
-		{ name: "Pricing", href: "/pricing" },
 		{ name: "About Us", href: "/about" },
 	];
 
@@ -55,7 +54,7 @@ const NavigationBar = () => {
 							<UserButton />
 						) : (
 							<Button variant="outline" size="sm" asChild className="text-sm">
-								<Link href="/sign-in">Login / Sign Up</Link>
+								<Link href="/sign-in">Login</Link>
 							</Button>
 						)}
 					</div>

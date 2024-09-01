@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/card"; // Adjust import path if needed
 import { cn } from "@/lib/utils"; // Utility for conditional class names
+import { generateSlug } from "@/utils/commonFunc";
 
 interface CategoryCardProps {
 	title: string;
@@ -11,7 +12,7 @@ interface CategoryCardProps {
 
 const CategoryCard = ({ title, icon, description }: CategoryCardProps) => {
 	// Convert title to a URL-friendly format
-	const slug = encodeURIComponent(title.toLowerCase().replace(/\s+/g, "-"));
+	const slug = generateSlug(title);
 
 	return (
 		<Link href={`/courses/${slug}`} passHref>

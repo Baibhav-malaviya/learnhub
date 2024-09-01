@@ -15,6 +15,7 @@ const isPublicApiRoute = createRouteMatcher([
 	"/api/webhook/clerk", // Add the webhook route here
 	"/api/courses/search",
 	"/api/courses/health",
+	"/api/create/courses",
 	//! we can add more public API routes here
 ]);
 
@@ -39,14 +40,13 @@ export default clerkMiddleware((auth, req) => {
 	// Handle unauthenticated users
 	if (!userId) {
 		// Redirect to sign-in page if trying to access a protected route
-		if (!isPublicApiRoute(req) && !isPublicRoute(req)) {
-			return NextResponse.redirect(new URL("/sign-in", req.url));
-		}
-
+		// if (!isPublicApiRoute(req) && !isPublicRoute(req)) {
+		// 	return NextResponse.redirect(new URL("/sign-in", req.url));
+		// }
 		// Redirect to sign-in page if trying to access a protected API route
-		if (isApiRequest && !isPublicApiRoute(req)) {
-			return NextResponse.redirect(new URL("/sign-in", req.url));
-		}
+		// if (isApiRequest && !isPublicApiRoute(req)) {
+		// 	return NextResponse.redirect(new URL("/sign-in", req.url));
+		// }
 	}
 
 	// Allow the request to proceed

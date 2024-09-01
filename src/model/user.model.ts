@@ -1,7 +1,8 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
 
 // Define the User interface for TypeScript
-interface IUser extends Document {
+export interface IUser extends Document {
+	_id: mongoose.Types.ObjectId;
 	clerkUserId: string;
 	email: string;
 	name: string;
@@ -9,6 +10,8 @@ interface IUser extends Document {
 	profileImage?: string;
 	enrolledCourses: mongoose.Types.ObjectId[];
 	createdCourses: mongoose.Types.ObjectId[];
+	createdAt: Date;
+	updatedAt: Date;
 }
 
 // Create the User schema

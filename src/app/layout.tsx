@@ -5,6 +5,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ToastProvider } from "@/components/ui/toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,9 +27,10 @@ export default function RootLayout({
 					<header>
 						<Navbar />
 					</header>
-					<main className="flex min-h-screen flex-col items-center justify-between mt-16 bg-background">
+					<main className="flex min-h-screen flex-col items-center justify-between bg-background">
 						{children}
 					</main>
+					<ToastProvider />
 					<Footer />
 				</body>
 			</html>
