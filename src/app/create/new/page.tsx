@@ -13,7 +13,7 @@ import { generateSlug } from "@/utils/commonFunc";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 import axios from "axios";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/hooks/use-toast";
 import Section from "@/components/myComponents/Section";
 
 const AddCoursePage = () => {
