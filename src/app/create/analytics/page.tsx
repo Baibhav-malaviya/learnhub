@@ -1,7 +1,7 @@
 import React from "react";
 
 function Analytics() {
-	return <div>Analytics of the course</div>;
+	return <div>This is analytics page</div>;
 }
 
 export default Analytics;

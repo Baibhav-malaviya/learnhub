@@ -83,6 +83,7 @@ const ReviewSchema: Schema<IReview> = new Schema(
 
 // Enhanced ICourse interface
 export interface ICourse extends Document {
+	_id: mongoose.Types.ObjectId;
 	title: string;
 	description: string;
 	category: string;
@@ -90,7 +91,7 @@ export interface ICourse extends Document {
 	price: number;
 	language: string;
 	thumbnailUrl?: string;
-	tutorId: mongoose.Types.ObjectId;
+	creatorId: mongoose.Types.ObjectId;
 	sections: ISection[];
 	reviews: IReview[];
 	enrollmentCount: number;
@@ -140,8 +141,9 @@ const CourseSchema: Schema<ICourse> = new Schema(
 		thumbnailUrl: {
 			type: String,
 			required: false,
+			default: "https://via.placeholder.com/400x250?text",
 		},
-		tutorId: {
+		creatorId: {
 			type: Schema.Types.ObjectId,
 			ref: "User",
 			required: true,

@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
 			language,
 			price,
 			duration: 0,
-			tutorId: currentUser?._id, // Replace with actual tutor ID from authentication
+			creatorId: currentUser?._id, // Replace with actual tutor ID from authentication
 		});
 
 		await newCourse.save();

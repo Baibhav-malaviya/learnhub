@@ -84,7 +84,6 @@ export async function POST(req: Request) {
 					email: email_addresses[0]?.email_address,
 					name: `${first_name} ${last_name}`,
 					profileImage: image_url,
-					role: "student", // Default role
 					enrolledCourses: [], // Initialize with empty array
 					createdCourses: [], // Initialize with empty array
 				});

@@ -15,10 +15,21 @@ import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@/components/hooks/use-toast";
 import Section from "@/components/myComponents/Section";
+import { useCreatedCourse } from "@/store/creator";
+
+export interface IFormData {
+	title: string;
+	slug: string;
+	description: string;
+	category: string;
+	price: string;
+	level: "Beginner" | "Intermediate" | "Advanced";
+	language: string;
+}
 
 const AddCoursePage = () => {
 	// State to hold form data
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<IFormData>({
 		title: "",
 		slug: "",
 		description: "",
@@ -52,7 +63,7 @@ const AddCoursePage = () => {
 		setError(null); // Reset error state
 
 		try {
-			await axios.post("/api/create/courses", formData);
+			await useCreatedCourse.getState().addCourse(formData);
 			// Clear form after successful submission (optional)
 			setFormData({
 				title: "",
@@ -174,7 +185,9 @@ const AddCoursePage = () => {
 					<div>
 						<label className="block text-gray-700 mb-2">Level</label>
 						<Select
-							onValueChange={(value) => {
+							onValueChange={(
+								value: "Beginner" | "Intermediate" | "Advanced"
+							) => {
 								setFormData((prevData) => ({
 									...prevData,
 									level: value,

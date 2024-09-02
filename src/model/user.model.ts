@@ -10,6 +10,14 @@ export interface IUser extends Document {
 	profileImage?: string;
 	enrolledCourses: mongoose.Types.ObjectId[];
 	createdCourses: mongoose.Types.ObjectId[];
+	socialMediaLinks?: {
+		facebook?: string;
+		twitter?: string;
+		linkedin?: string;
+		instagram?: string;
+		youtube?: string;
+		// Add more platforms as needed
+	};
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -52,6 +60,24 @@ const UserSchema = new Schema<IUser>(
 				ref: "Course",
 			},
 		],
+		socialMediaLinks: {
+			facebook: {
+				type: String,
+			},
+			twitter: {
+				type: String,
+			},
+			linkedin: {
+				type: String,
+			},
+			instagram: {
+				type: String,
+			},
+			youtube: {
+				type: String,
+			},
+			// Add more platforms as needed
+		},
 	},
 	{ timestamps: true }
 );

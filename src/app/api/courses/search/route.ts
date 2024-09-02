@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
 			.sort({ enrollmentCount: -1 })
 			.exec();
 
-		const filteredCourses = courses.filter((course) => course.tutorId);
+		const filteredCourses = courses.filter((course) => course.creatorId);
 
 		return NextResponse.json(
 			{
