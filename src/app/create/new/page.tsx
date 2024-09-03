@@ -16,6 +16,7 @@ import axios from "axios";
 import { useToast } from "@/components/hooks/use-toast";
 import Section from "@/components/myComponents/Section";
 import { useCreatedCourse } from "@/store/creator";
+import SubmitButton from "@/components/SubmitButton";
 
 export interface IFormData {
 	title: string;
@@ -90,7 +91,7 @@ const AddCoursePage = () => {
 	};
 
 	return (
-		<Section className="container mx-auto p-4">
+		<Section className="container mx-auto px-0">
 			<h1 className="text-xl font-bold mb-4">Create New Course</h1>
 			<form onSubmit={handleSubmit} className="space-y-4">
 				{/* Course Title and Slug */}
@@ -207,21 +208,9 @@ const AddCoursePage = () => {
 					</div>
 				</div>
 
-				{/* Submit Button */}
-				<Button
-					type="submit"
-					className={`mt-4 ${isLoading && "opacity-70"}`}
-					disabled={isLoading}
-				>
-					{isLoading ? (
-						<>
-							<Loader className="animate-spin h-5 w-5 mr-3" />
-							Creating...
-						</>
-					) : (
-						"Create Course"
-					)}
-				</Button>
+				<SubmitButton isLoading={isLoading} loadingText="Creating">
+					Create Course
+				</SubmitButton>
 
 				{/* Error Message */}
 				{error && <p className="text-red-500 mt-2">{error}</p>}

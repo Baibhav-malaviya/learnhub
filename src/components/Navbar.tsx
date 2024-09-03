@@ -5,6 +5,8 @@ import { useUser } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
+import Logo from "./Logo";
+import { usePathname } from "next/navigation";
 
 const NavigationBar = () => {
 	const { user, isSignedIn } = useUser();
@@ -21,6 +23,8 @@ const NavigationBar = () => {
 	if (isTutor) {
 		menuItems.push({ name: "Dashboard", href: "/dashboard" });
 	}
+	const pathname = usePathname();
+	const isActive = (path: string) => pathname === path;
 
 	const handleMenuItemClick = () => {
 		setIsMenuOpen(false);
@@ -31,9 +35,7 @@ const NavigationBar = () => {
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="flex items-center justify-between h-16">
 					{/* Logo */}
-					<Link href="/" className="text-primary text-xl font-semibold">
-						LearnHub
-					</Link>
+					<Logo src="/images/logo.png" width={50} height={50} />
 
 					{/* Desktop Navigation */}
 					<div className="hidden md:flex space-x-6">
@@ -41,7 +43,11 @@ const NavigationBar = () => {
 							<Link
 								key={item.name}
 								href={item.href}
-								className="text-sm md:text-base font-medium text-muted-foreground hover:text-primary transition-colors"
+								className={`text-sm md:text-base font-medium text-muted-foreground hover:text-primary transition-colors  ${
+									isActive(item.href)
+										? "text-primary "
+										: "text-muted-foreground hover:text-primary"
+								}`}
 							>
 								{item.name}
 							</Link>

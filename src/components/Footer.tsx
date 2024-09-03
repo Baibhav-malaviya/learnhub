@@ -9,8 +9,10 @@ const Footer: React.FC = () => {
 				<div className="flex flex-wrap justify-between">
 					{/* Logo and Description */}
 					<div className="w-full md:w-1/4 mb-6 md:mb-0">
-						<h2 className="text-2xl font-bold text-primary mb-4">LearnHub</h2>
-						<p className="text-muted-foreground">
+						<Link href={"/"} className="text-2xl font-bold text-primary mb-4">
+							LearnHub
+						</Link>
+						<p className="text-muted-foreground text-sm">
 							Your go-to platform for a wide range of online courses taught by
 							experts in the field.
 						</p>

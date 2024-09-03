@@ -48,4 +48,32 @@ export const sampleCourses: Course[] = [
 		tags: ["Machine Learning", "Data Science", "AI"],
 		category: "Data Science",
 	},
+	{
+		id: "4",
+		title: "UI/UX designing",
+		instructor: "Shaan Khan",
+		rating: 4.6,
+		numRatings: 90,
+		numStudents: 200,
+		price: 2,
+		description: "An introduction to ui/ux techniques and algorithms.",
+		image: "/images/hero-background.jpg",
+		duration: 8, // Duration in hours
+		tags: ["Design"],
+		category: "Designing",
+	},
+	{
+		id: "5",
+		title: "YOGA & Meditation",
+		instructor: "Baibhav Malaviya",
+		rating: 4.6,
+		numRatings: 90,
+		numStudents: 200,
+		price: 4999,
+		description: "From introduction to deep dive in yoga and meditation.",
+		image: "/images/hero-background.jpg",
+		duration: 8, // Duration in hours
+		tags: ["Yoga", "Meditation", "Exercise"],
+		category: "Meditation",
+	},
 ];

@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { Edit } from "lucide-react"; // Import the edit icon from Lucide
+import Link from "next/link";
 import { Button } from "@/components/ui/button"; // Shadcn button component
 import { truncateString } from "@/utils/commonFunc";
 import {
@@ -28,10 +29,10 @@ export interface Course {
 
 interface CourseCardProps {
 	course: ICourse;
-	onEdit: (courseId: mongoose.Types.ObjectId) => void; // Function to handle edit button click with course ID
+	// onEdit: (courseId: mongoose.Types.ObjectId) => void; // Function to handle edit button click with course ID
 }
 
-const CourseCard: React.FC<CourseCardProps> = ({ course, onEdit }) => {
+const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
 	return (
 		<Card
 			className="relative w-auto h-auto bg-cover bg-center overflow-hidden rounded-lg flex flex-col hover:hover-card"
@@ -46,7 +47,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onEdit }) => {
 			{/* Content Section */}
 			<div className="flex-1 ">
 				<CardHeader>
-					<CardTitle className="text-lg font-semibold text-white truncate">
+					<CardTitle className="text-lg font-semibold text-foreground/60 truncate">
 						{course.title}
 					</CardTitle>
 					<CardDescription className="text-gray-300 text-sm mt-1">
@@ -64,11 +65,9 @@ const CourseCard: React.FC<CourseCardProps> = ({ course, onEdit }) => {
 			</CardContent>
 
 			{/* Edit Button */}
-
-			<Edit
-				className="w-4 h-4 mr-1 absolute top-4 right-4 text-white hover:cursor-pointer"
-				onClick={() => onEdit(course._id)}
-			/>
+			<Link href={`/create/courses/${course._id}`}>
+				<Edit className="w-4 h-4 mr-1 absolute top-4 right-4 text-white hover:cursor-pointer" />
+			</Link>
 		</Card>
 	);
 };

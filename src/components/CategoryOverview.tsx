@@ -15,6 +15,18 @@ const categories = [
 		icon: "/images/hero-background.jpg",
 		description: "Analyze and visualize data",
 	},
+	{
+		id: "DevOps",
+		title: "DevOps",
+		icon: "/images/hero-background.jpg",
+		description: "Analyze the work flow",
+	},
+	{
+		id: "Fashion",
+		title: "Fashion",
+		icon: "/images/hero-background.jpg",
+		description: "Explore the fashion",
+	},
 	// More categories
 ];
 

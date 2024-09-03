@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 import { useCreatedCourse } from "@/store/creator";
 import mongoose from "mongoose";
+import { redirect } from "next/navigation";
 
 const dummyCourses = [
 	{
@@ -46,32 +47,6 @@ const dummyCourses = [
 	},
 ];
 
-/**
-_id: "66d486483deb4ee17c1a5733"
-averageRating: 0
-​​category: "programming"
-​​certificateOffered: false
-​​createdAt: "2024-09-01T15:20:40.176Z"
-​​creatorId: "66d3869fad40ecf643275338"
-​​description: "This is beginner level devops course."
-​​duration: 0
-​​enrollmentCount: 0
-​​id: "66d486483deb4ee17c1a5733"
-​​isPublished: false
-​​language: "english"
-​​level: "Beginner"
-​​prerequisites: Array [ "Basic HTML", "Basic css" ]
-​​price: 25
-​​reviews: Array []
-​​savingsPercentage: 0
-​​sections: Array [ {…} ]
-​​skillsGained: Array []
-​​studentsCompleted: 0
-​​tags: Array []
-​​title: "DevOps"
-​​updatedAt: "2024-09-01T16:44:30.561Z"
- */
-
 function Courses() {
 	const [isPageLoading, setIsPageLoading] = useState(false);
 	const { courses, fetchCourses } = useCreatedCourse();
@@ -88,13 +63,14 @@ function Courses() {
 
 	const handleEdit = (courseId: mongoose.Types.ObjectId) => {
 		// Handle the edit action here
-		alert(`Edit button clicked for course ID: ${courseId}`);
+		// alert(`Edit button clicked for course ID: ${courseId}`);
+		redirect(`/create/courses/${courseId}`);
 	};
 
 	return (
-		<Section className="container p-6 ">
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-				<Card className="bg-secondary/10 hover:hover-card">
+		<Section className="container px-0">
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 justify-end ">
+				<Card className="bg-secondary/10 hover:hover-card min-h-44">
 					<Link
 						href={"/create/new"}
 						className="h-full w-full flex items-center justify-center"
@@ -111,9 +87,7 @@ function Courses() {
 						</h1>
 					</Section>
 				) : (
-					courses.map((course, idx) => (
-						<CourseCard key={idx} course={course} onEdit={handleEdit} />
-					))
+					courses.map((course, idx) => <CourseCard key={idx} course={course} />)
 				)}
 			</div>
 		</Section>
