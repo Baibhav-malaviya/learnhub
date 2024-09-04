@@ -17,6 +17,7 @@ import { useToast } from "@/components/hooks/use-toast";
 import Section from "@/components/myComponents/Section";
 import { useCreatedCourse } from "@/store/creator";
 import SubmitButton from "@/components/SubmitButton";
+import { Label } from "@/components/ui/label";
 
 export interface IFormData {
 	title: string;
@@ -97,7 +98,7 @@ const AddCoursePage = () => {
 				{/* Course Title and Slug */}
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div>
-						<label className="block text-gray-700 mb-2">Course Title</label>
+						<Label className="block text-gray-700 mb-2">Course Title</Label>
 						<Input
 							type="text"
 							name="title"
@@ -108,7 +109,7 @@ const AddCoursePage = () => {
 						/>
 					</div>
 					<div>
-						<label className="block text-gray-700 mb-2">Slug</label>
+						<Label className="block text-gray-700 mb-2">Slug</Label>
 						<Input
 							type="text"
 							name="slug"
@@ -121,7 +122,7 @@ const AddCoursePage = () => {
 
 				{/* Course Description */}
 				<div>
-					<label className="block text-gray-700 mb-2">Description</label>
+					<Label className="block text-gray-700 mb-2">Description</Label>
 					<Textarea
 						name="description"
 						value={formData.description}
@@ -134,7 +135,7 @@ const AddCoursePage = () => {
 				{/* Category and Price */}
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div>
-						<label className="block text-gray-700 mb-2">Category</label>
+						<Label className="block text-gray-700 mb-2">Category</Label>
 						<Input
 							type="text"
 							name="category"
@@ -145,7 +146,7 @@ const AddCoursePage = () => {
 						/>
 					</div>
 					<div>
-						<label className="block text-gray-700 mb-2">Price</label>
+						<Label className="block text-gray-700 mb-2">Price</Label>
 						<Input
 							type="number"
 							name="price"
@@ -160,7 +161,7 @@ const AddCoursePage = () => {
 				{/* Language */}
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div>
-						<label className="block text-gray-700 mb-2">Language</label>
+						<Label className="block text-gray-700 mb-2">Language</Label>
 						<Select
 							onValueChange={(value) => {
 								setFormData((prevData) => ({

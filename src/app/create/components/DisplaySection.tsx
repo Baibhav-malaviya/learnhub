@@ -3,6 +3,8 @@ import { ISection } from "@/model/course.model"; // Adjust the import path as ne
 import UpdateSectionForm from "./UpdateSectionForm";
 import { Button } from "@/components/ui/button";
 import mongoose from "mongoose";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 interface SectionProps {
 	sectionId: mongoose.Types.ObjectId;
@@ -10,6 +12,7 @@ interface SectionProps {
 }
 
 const Section: React.FC<SectionProps> = ({ sectionId, sectionData }) => {
+	const { courseId } = useParams();
 	const [isEditing, setIsEditing] = useState<boolean>(false);
 	const [title, setTitle] = useState<string>(sectionData.title);
 
@@ -22,7 +25,10 @@ const Section: React.FC<SectionProps> = ({ sectionId, sectionData }) => {
 	};
 
 	return (
-		<div className="p-4 border rounded-md">
+		<Link
+			href={`/create/courses/${courseId}/sections/${sectionId}`}
+			className="p-4 border rounded-md"
+		>
 			{!isEditing ? (
 				<div className="flex w-full justify-between gap-4 items-center">
 					<h2 className="text-lg font-semibold flex-1">{title}</h2>
@@ -39,7 +45,7 @@ const Section: React.FC<SectionProps> = ({ sectionId, sectionData }) => {
 					onUpdateSuccess={handleUpdateSuccess}
 				/>
 			)}
-		</div>
+		</Link>
 	);
 };
 

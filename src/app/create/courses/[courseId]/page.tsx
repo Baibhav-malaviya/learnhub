@@ -1,34 +1,3 @@
-// "use client";
-// import { useEffect, useState } from "react";
-// import { ICourse } from "@/model/course.model"; // Adjust the import path as needed
-// import AddSectionForm from "../../components/AddSectionForm";
-
-// const CoursePage = ({ params }: { params: { courseId: string } }) => {
-// 	const courseId = params.courseId;
-// 	const [course, setCourse] = useState<ICourse | null>(null);
-// 	const [loading, setLoading] = useState(false);
-// 	const [error, setError] = useState<string | null>(null);
-
-// 	useEffect(() => {
-// 		(async () => {
-// 			try {
-// 			} catch (error) {
-// 				console.log("Error in getting course by courseId: ", courseId);
-// 			}
-// 		})();
-// 	}, [courseId]);
-
-// 	if (loading) return <div>Loading...</div>;
-
-// 	return (
-// 		<div>
-// 			<AddSectionForm courseId={courseId} />
-// 		</div>
-// 	);
-// };
-
-// export default CoursePage;
-
 "use client";
 import { useEffect, useState } from "react";
 import { ISection } from "@/model/course.model"; // Adjust the import path as needed
