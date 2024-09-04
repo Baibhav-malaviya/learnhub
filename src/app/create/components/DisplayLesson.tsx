@@ -13,6 +13,8 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Loader2 } from "lucide-react";
 import { ILesson } from "@/model/course.model";
 import { useParams } from "next/navigation";
+import UpdateLessonForm from "./UpdateLessonForm";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 const DisplayLesson = () => {
 	const [lessons, setLessons] = useState<ILesson[] | []>([]);
@@ -72,28 +74,39 @@ const DisplayLesson = () => {
 				<Accordion type="single" collapsible className="w-full">
 					{lessons.map((lesson, idx) => (
 						<AccordionItem key={idx} value={`item-${idx}`}>
-							<AccordionTrigger>{lesson.title}</AccordionTrigger>
+							<AccordionTrigger className=" py-0">
+								<Table className="w-full">
+									<TableBody>
+										<TableRow>
+											<TableCell className="text-left ">
+												{lesson.title}
+											</TableCell>
+											<TableCell className="text-left ">
+												{lesson.duration ? `${lesson.duration} minutes` : "N/A"}
+											</TableCell>
+
+											<TableCell className="text-right ">
+												{lesson.preview ? "Preview Available" : "No Preview"}
+											</TableCell>
+										</TableRow>
+									</TableBody>
+								</Table>
+							</AccordionTrigger>
 							<AccordionContent>
-								<p>{lesson.content}</p>
-								{lesson.videoUrl && (
-									<p className="mt-2">
-										<strong>Video:</strong>{" "}
-										<span className="text-blue-500 underline">
-											{lesson.videoUrl}{" "}
-										</span>
-									</p>
-								)}
-								{lesson.duration && (
-									<p className="mt-2">
-										<strong>Duration:</strong> {lesson.duration} minutes
-									</p>
-								)}
-								{lesson.preview !== undefined && (
-									<p className="mt-2">
-										<strong>Preview available:</strong>{" "}
-										{lesson.preview ? "Yes" : "No"}
-									</p>
-								)}
+								<UpdateLessonForm
+									courseId={courseId as string}
+									sectionId={sectionId as string}
+									lesson={lesson}
+									onUpdateLesson={(updatedLesson: ILesson) => {
+										setLessons((prevLessons) =>
+											prevLessons.map((lesson) =>
+												lesson._id === updatedLesson._id
+													? updatedLesson
+													: lesson
+											)
+										);
+									}}
+								/>
 							</AccordionContent>
 						</AccordionItem>
 					))}

@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 interface UpdateSectionFormProps {
 	sectionId: mongoose.Types.ObjectId;
 	initialTitle: string;
-	toggleEditing: () => void;
+	toggleEditing: (e: any) => void;
 	onUpdateSuccess: (newTitle: string) => void;
 }
 
@@ -39,7 +39,7 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
 
 			if (response.status === 200) {
 				onUpdateSuccess(title);
-				toggleEditing();
+				toggleEditing(e);
 			} else {
 				throw new Error("Failed to update section");
 			}

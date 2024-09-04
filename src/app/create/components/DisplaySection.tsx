@@ -16,7 +16,8 @@ const Section: React.FC<SectionProps> = ({ sectionId, sectionData }) => {
 	const [isEditing, setIsEditing] = useState<boolean>(false);
 	const [title, setTitle] = useState<string>(sectionData.title);
 
-	const handleToggleEdit = () => {
+	const handleToggleEdit = (e: any) => {
+		e.preventDefault();
 		setIsEditing((prev) => !prev);
 	};
 
