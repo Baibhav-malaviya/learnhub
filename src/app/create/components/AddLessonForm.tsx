@@ -18,14 +18,27 @@ function AddLessonForm() {
 	const [isForPreview, setIsForPreview] = useState<boolean>(false);
 
 	const { courseId, sectionId } = useParams();
-	console.log("courseId: ", courseId);
-	console.log("sectionId: ", sectionId);
 
 	const handleFileSelect = (event: ChangeEvent<HTMLInputElement>) => {
 		const selectedFile = event.target.files?.[0] || null;
-		setFile(selectedFile);
 		if (selectedFile) {
-			setFileSize((selectedFile.size / (1024 * 1024)).toFixed(2)); // Convert size to MB
+			const fileSizeInMB = selectedFile.size / (1024 * 1024);
+			if (fileSizeInMB > 500) {
+				setUploadError(
+					"File size exceeds 500MB limit. Please choose a smaller file or compress the same file."
+				);
+				setFile(null);
+				setFileSize("");
+				event.target.value = ""; // Reset the file input
+			} else {
+				setFile(selectedFile);
+				setFileSize(fileSizeInMB.toFixed(2));
+				setUploadError(null);
+			}
+		} else {
+			setFile(null);
+			setFileSize("");
+			setUploadError(null);
 		}
 	};
 
@@ -45,10 +58,9 @@ function AddLessonForm() {
 		formData.append("title", title);
 		formData.append("content", content);
 		formData.append("fileSize", fileSize);
-		formData.append("isForPreview", isForPreview.toString()); // Convert boolean to string
+		formData.append("isForPreview", isForPreview.toString());
 
 		try {
-			// Upload video and lesson data
 			const response = await axios.post(
 				`/api/create/courses/${courseId}/sections/${sectionId}/lessons`,
 				formData,
@@ -64,7 +76,7 @@ function AddLessonForm() {
 			setContent("");
 			setFile(null);
 			setFileSize("");
-			setIsForPreview(false); // Reset preview checkbox
+			setIsForPreview(false);
 		} catch (error) {
 			console.error("Error uploading lesson:", error);
 			setUploadError("Failed to upload lesson. Please try again.");
@@ -130,8 +142,7 @@ function AddLessonForm() {
 						</div>
 					</div>
 					{file && <p>File size: {fileSize} MB</p>}
-					{isUploading && <p>Uploading lesson...</p>}
-					{uploadError && <p className="text-red-500">{uploadError}</p>}
+					{uploadError && <p className="text-red-500 text-sm">{uploadError}</p>}
 
 					<SubmitButton isLoading={isUploading} loadingText="Adding...">
 						Add Lesson
