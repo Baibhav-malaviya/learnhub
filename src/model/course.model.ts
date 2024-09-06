@@ -206,6 +206,22 @@ const CourseSchema: Schema<ICourse> = new Schema(
 	{ timestamps: true }
 );
 
+// Indexing which help in searching and filtering
+CourseSchema.index({
+	title: "text",
+	description: "text",
+	skillsGained: "text",
+	category: "text",
+});
+
+// Full-text index
+CourseSchema.index({ category: 1 });
+CourseSchema.index({ level: 1 });
+CourseSchema.index({ price: 1 });
+CourseSchema.index({ language: 1 });
+CourseSchema.index({ tags: 1 });
+CourseSchema.index({ creatorId: 1 });
+
 // Middleware to update averageRating when a review is added or modified
 CourseSchema.pre("save", async function (next) {
 	if (this.isModified("reviews")) {

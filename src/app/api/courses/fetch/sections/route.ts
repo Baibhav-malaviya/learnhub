@@ -3,6 +3,7 @@ import connectDB from "@/lib/connectDB"; // Adjust the path as needed
 import Course from "@/model/course.model"; // Adjust the path as needed
 
 import { ICourse } from "@/model/course.model";
+import redis from "@/lib/redis";
 
 export async function GET(request: NextRequest) {
 	try {
@@ -20,6 +21,20 @@ export async function GET(request: NextRequest) {
 		// Connect to the database
 		await connectDB();
 
+		const cacheKey = `sections_${courseId}`;
+		const cachedSections = await redis.get(cacheKey);
+
+		if (cachedSections) {
+			return NextResponse.json(
+				{
+					sections: JSON.parse(cachedSections),
+					success: true,
+					message: "Section fetched successfully (from cache)",
+				},
+				{ status: 200 }
+			);
+		}
+
 		// Fetch the course by ID and get sections
 		const course = (await Course.findById(courseId)
 			.select("sections")
@@ -31,6 +46,8 @@ export async function GET(request: NextRequest) {
 				{ status: 404 }
 			);
 		}
+
+		await redis.set(cacheKey, JSON.stringify(course.sections), "EX", 3600);
 
 		// Return the sections of the course
 		return NextResponse.json(

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import connectDB from "@/lib/connectDB";
 import Course from "@/model/course.model";
+import redis from "@/lib/redis";
 
 //  * GET handler for fetching lessons of a specific section in a course
 
@@ -22,6 +23,17 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 	try {
 		// Connect to the database
 		await connectDB();
+
+		const cacheKey = `lessons_${courseId}_${sectionId}`;
+		const cachedLessons = await redis.get(cacheKey);
+
+		if (cachedLessons) {
+			return NextResponse.json({
+				message: "Lessons fetched successfully (from cache)",
+				success: true,
+				lessons: JSON.parse(cachedLessons),
+			});
+		}
 
 		// Validate and convert IDs to ObjectId
 		const courseObjectId = mongoose.Types.ObjectId.isValid(courseId)
@@ -57,6 +69,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 
 		// Extract lessons from the section
 		const lessons = course.sections[0].lessons;
+
+		await redis.set(cacheKey, JSON.stringify(lessons), "EX", 3600);
 
 		// Return the lessons
 		return NextResponse.json({
