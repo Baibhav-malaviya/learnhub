@@ -12,3 +12,7 @@ export function truncateString(str: string, maxLength: number): string {
 
 	return str.slice(0, truncLength) + "...";
 }
+
+export function formatNumberWithCommas(number: number): string {
+	return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

@@ -122,7 +122,7 @@ const AddCoursePage = () => {
 
 				{/* Course Description */}
 				<div>
-					<Label className="block text-gray-700 mb-2">Description</Label>
+					<Label>Description</Label>
 					<Textarea
 						name="description"
 						value={formData.description}
@@ -135,7 +135,7 @@ const AddCoursePage = () => {
 				{/* Category and Price */}
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div>
-						<Label className="block text-gray-700 mb-2">Category</Label>
+						<Label>Category</Label>
 						<Input
 							type="text"
 							name="category"
@@ -146,7 +146,7 @@ const AddCoursePage = () => {
 						/>
 					</div>
 					<div>
-						<Label className="block text-gray-700 mb-2">Price</Label>
+						<Label>Price</Label>
 						<Input
 							type="number"
 							name="price"
@@ -161,7 +161,7 @@ const AddCoursePage = () => {
 				{/* Language */}
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<div>
-						<Label className="block text-gray-700 mb-2">Language</Label>
+						<Label>Language</Label>
 						<Select
 							onValueChange={(value) => {
 								setFormData((prevData) => ({
@@ -185,7 +185,7 @@ const AddCoursePage = () => {
 					</div>
 
 					<div>
-						<label className="block text-gray-700 mb-2">Level</label>
+						<Label>Level</Label>
 						<Select
 							onValueChange={(
 								value: "Beginner" | "Intermediate" | "Advanced"

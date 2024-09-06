@@ -2,6 +2,7 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import SearchInput from "./SearchInput";
 
 const MergedHero = () => {
 	return (
@@ -21,16 +22,8 @@ const MergedHero = () => {
 					Access top-tier courses, engage with expert tutors, and transform your
 					skills from anywhere, at any time.
 				</p>
-				<div className="flex justify-center items-center space-x-4 mb-8">
-					<Input
-						type="text"
-						placeholder="Search courses..."
-						className="w-full max-w-md"
-					/>
-					<Button variant="default" size="lg">
-						Search
-					</Button>
-				</div>
+
+				<SearchInput />
 				<div className="flex justify-center space-x-4">
 					<Button variant="default" size="lg">
 						Explore Courses
