@@ -3,6 +3,7 @@ import mongoose, { Document, Schema, Model } from "mongoose";
 // Define the User interface for TypeScript
 export interface IUser extends Document {
 	_id: mongoose.Types.ObjectId;
+	bio: string;
 	clerkUserId: string;
 	email: string;
 	name: string;
@@ -29,6 +30,10 @@ const UserSchema = new Schema<IUser>(
 			type: String,
 			required: true,
 			unique: true,
+		},
+		bio: {
+			type: String,
+			required: true,
 		},
 		email: {
 			type: String,
@@ -76,7 +81,6 @@ const UserSchema = new Schema<IUser>(
 			youtube: {
 				type: String,
 			},
-			// Add more platforms as needed
 		},
 	},
 	{ timestamps: true }
