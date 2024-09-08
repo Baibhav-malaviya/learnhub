@@ -9,15 +9,7 @@ import { CardHeader, CardTitle } from "@/components/ui/card";
 import { formatDuration } from "@/utils/commonFunc";
 import { Video } from "lucide-react";
 import { useState } from "react";
-
-interface ILesson {
-	_id: string;
-	title: string;
-	content: string;
-	videoUrl?: string;
-	duration?: number;
-	preview?: boolean;
-}
+import { ILesson } from "@/model/course.model";
 
 export interface ISection {
 	_id: string;
@@ -27,10 +19,27 @@ export interface ISection {
 
 interface SectionsProps {
 	sections: ISection[];
+	isEnrolled: boolean;
+	onLessonClick?: (lesson: ILesson) => void; // Optional prop for handling lesson click
 }
 
-export default function SectionsAccordion({ sections }: SectionsProps) {
+export default function SectionsAccordion({
+	sections,
+	isEnrolled,
+	onLessonClick,
+}: SectionsProps) {
 	const [activeSection, setActiveSection] = useState<string | null>(null);
+
+	const handleLessonClick = (lesson: ILesson) => {
+		if (lesson.preview || isEnrolled) {
+			if (onLessonClick) {
+				onLessonClick(lesson);
+			} else {
+				// Default behavior: Redirect to the lesson's videoUrl or handle as needed
+				console.log("Playing lesson:", lesson.title);
+			}
+		}
+	};
 
 	return (
 		<Accordion type="single" collapsible onValueChange={setActiveSection}>
@@ -39,7 +48,7 @@ export default function SectionsAccordion({ sections }: SectionsProps) {
 					<AccordionTrigger>
 						<CardHeader className="w-full">
 							<CardTitle className="flex justify-between items-center w-full">
-								<div>{section.title}</div>{" "}
+								<div>{section.title}</div>
 								<div className="text-sm">{section.lessons.length} lessons</div>
 							</CardTitle>
 						</CardHeader>
@@ -47,20 +56,23 @@ export default function SectionsAccordion({ sections }: SectionsProps) {
 					<AccordionContent>
 						<ul>
 							{section.lessons.length > 0 ? (
-								section.lessons.map((lesson) => (
+								section.lessons.map((lesson, idx) => (
 									<li
-										key={lesson._id}
+										key={idx}
 										className={`px-4 py-2 text-sm border-b border-muted hover:bg-accent hover:shadow-sm transition-all duration-300 ${
-											lesson.preview && "cursor-pointer"
+											lesson.preview || isEnrolled
+												? "cursor-pointer"
+												: "cursor-not-allowed"
 										}`}
+										onClick={() => handleLessonClick(lesson)}
 									>
 										<div className="flex flex-col md:flex-row justify-between items-start md:items-center">
 											<div className="flex justify-between items-center w-full space-y-1 md:space-y-0">
 												<div
-													className={`space-x-2 flex items-center  ${
-														lesson.preview
+													className={`space-x-2 flex items-center ${
+														lesson.preview || isEnrolled
 															? "underline text-blue-600"
-															: "text-foreground"
+															: "text-muted-fore"
 													}`}
 												>
 													<Video strokeWidth={"1px"} />
@@ -75,9 +87,9 @@ export default function SectionsAccordion({ sections }: SectionsProps) {
 													{lesson.duration && (
 														<p
 															className={`text-sm mt-1 ${
-																lesson.preview
+																lesson.preview || isEnrolled
 																	? "underline text-blue-500"
-																	: "text-foreground"
+																	: "text-muted-foreground"
 															}`}
 														>
 															{formatDuration(lesson.duration)}

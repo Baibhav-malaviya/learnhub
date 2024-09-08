@@ -57,13 +57,15 @@ export async function POST(
 				path,
 				{
 					resource_type: "video",
-					folder: "tutorial_videos",
+					folder: "learnhub/lessons",
 					quality: "auto",
 					fetch_format: "auto",
 					width: 720,
-					crop: "scale",
+					height: 480, // Added height parameter
+					crop: "fill", // Changed from "scale" to "fill"
+					gravity: "center", // Added to ensure centering of the video
 					video_codec: "auto",
-					chunk_size: 10000000, // 10MB help during upload, if upload fail the maximum loss is the current chunks only (10MB)
+					chunk_size: 10000000, // 10MB chunks
 				},
 				(error, result) => {
 					if (error) reject(error);

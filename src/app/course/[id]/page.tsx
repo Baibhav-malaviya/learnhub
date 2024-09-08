@@ -22,7 +22,7 @@ import SectionsAccordion from "../components/SectionsAccordion";
 import { ISection } from "../components/SectionsAccordion";
 import Link from "next/link";
 
-interface ICourse {
+export interface ICourse {
 	_id: string;
 	title: string;
 	description: string;
@@ -86,6 +86,7 @@ export default function CoursePage() {
 	const { id } = useParams();
 	const [course, setCourse] = useState<ICourse | null>(null);
 	const [loading, setLoading] = useState(true);
+	const [isEnrolled, setIsEnrolled] = useState(false);
 
 	useEffect(() => {
 		const fetchCourse = async () => {
@@ -94,6 +95,7 @@ export default function CoursePage() {
 				const data = await response.json();
 				console.log("courses: ", data.course);
 				setCourse(data.course);
+				setIsEnrolled(data.isEnrolled);
 			} catch (error) {
 				console.error("Error fetching course details:", error);
 			} finally {
@@ -195,13 +197,18 @@ export default function CoursePage() {
 
 					<div className="flex justify-between items-center">
 						<p className="text-2xl font-bold">${course.price.toFixed(2)}</p>
-						<Button size="lg" onClick={() => alert("underdevelopment")}>
-							Enroll Now
-						</Button>
+						<div className="flex space-x-4">
+							<Button size="lg" onClick={() => alert("underdevelopment")}>
+								Enroll Now
+							</Button>
+							<Link href={`${id}/learn`}>
+								<Button size={"lg"}>Go to course</Button>
+							</Link>
+						</div>
 					</div>
 				</CardContent>
 			</Card>
-			<SectionsAccordion sections={course.sections} />
+			<SectionsAccordion sections={course.sections} isEnrolled={isEnrolled} />
 		</Section>
 	);
 }
