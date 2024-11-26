@@ -95,6 +95,7 @@ export interface ICourse extends Document {
 	sections: ISection[];
 	reviews: IReview[];
 	enrollmentCount: number;
+	enrolledStudent: mongoose.Types.ObjectId[];
 	createdAt: Date;
 	updatedAt: Date;
 	tags: string[];
@@ -154,6 +155,12 @@ const CourseSchema: Schema<ICourse> = new Schema(
 			type: Number,
 			default: 0,
 		},
+		enrolledStudent: [
+			{
+				type: mongoose.Types.ObjectId,
+				ref: "User",
+			},
+		],
 
 		// New fields
 		tags: [

@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
 		const limit = url.searchParams.get("limit");
 
 		// Check if the result is already cached in Redis
+
 		const cacheKey = `courses_${query}_${limit}`;
 		const cachedCourses = await redis.get(cacheKey);
 
@@ -23,8 +24,10 @@ export async function GET(req: NextRequest) {
 			});
 		}
 
-		// Default limit to 5 if not provided
-		const coursesLimit = limit ? parseInt(limit as string, 10) : 10;
+		// Default limit to 10 if not provided
+		const coursesLimit = limit
+			? Math.min(Math.max(parseInt(limit, 10), 1), 50)
+			: 10; // Ensure between 1-50 courses
 
 		// Base query for fetching popular courses
 		let filter = {};
