@@ -6,7 +6,6 @@ export const sampleCourses: Course[] = [
 	{
 		id: "1",
 		title: "Introduction to JavaScript",
-		instructor: "Jane Doe",
 		rating: 4.7,
 		numRatings: 120,
 		numStudents: 300,
@@ -21,7 +20,6 @@ export const sampleCourses: Course[] = [
 	{
 		id: "2",
 		title: "Advanced React",
-		instructor: "John Smith",
 		rating: 4.9,
 		numRatings: 85,
 		numStudents: 150,
@@ -36,7 +34,6 @@ export const sampleCourses: Course[] = [
 	{
 		id: "3",
 		title: "Machine Learning Basics",
-		instructor: "Alice Johnson",
 		rating: 4.6,
 		numRatings: 90,
 		numStudents: 200,
@@ -51,7 +48,6 @@ export const sampleCourses: Course[] = [
 	{
 		id: "4",
 		title: "UI/UX designing",
-		instructor: "Shaan Khan",
 		rating: 4.6,
 		numRatings: 90,
 		numStudents: 200,
@@ -65,7 +61,6 @@ export const sampleCourses: Course[] = [
 	{
 		id: "5",
 		title: "YOGA & Meditation",
-		instructor: "Baibhav Malaviya",
 		rating: 4.6,
 		numRatings: 90,
 		numStudents: 200,
