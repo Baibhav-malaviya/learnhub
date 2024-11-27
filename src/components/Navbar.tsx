@@ -4,13 +4,13 @@ import Link from "next/link";
 import { useUser } from "@clerk/nextjs";
 import { UserButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { LayoutDashboardIcon, Menu } from "lucide-react";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
 
 const NavigationBar = () => {
 	const { user, isSignedIn } = useUser();
-	const isTutor = user?.unsafeMetadata?.role === "tutor";
+	const isTutor = user?.unsafeMetadata?.role === "creator";
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	const menuItems = [
@@ -20,9 +20,6 @@ const NavigationBar = () => {
 		{ name: "About Us", href: "/about" },
 	];
 
-	if (isTutor) {
-		menuItems.push({ name: "Dashboard", href: "/dashboard" });
-	}
 	const pathname = usePathname();
 	const isActive = (path: string) => pathname === path;
 
@@ -38,7 +35,7 @@ const NavigationBar = () => {
 					<Logo src="/images/logo.png" width={50} height={50} />
 
 					{/* Desktop Navigation */}
-					<div className="hidden md:flex space-x-6">
+					<div className="hidden md:flex space-x-6 my-auto">
 						{menuItems.map((item) => (
 							<Link
 								key={item.name}
@@ -55,14 +52,28 @@ const NavigationBar = () => {
 					</div>
 
 					{/* Login/Sign Up or User Profile Button */}
-					<div className="hidden md:block">
-						{isSignedIn ? (
-							<UserButton />
-						) : (
-							<Button variant="outline" size="sm" asChild className="text-sm">
-								<Link href="/sign-in">Login</Link>
-							</Button>
-						)}
+					<div className="hidden md:flex space-x-6">
+						<Link href={"/create"}>
+							{isTutor && (
+								<Button
+									variant={"outline"}
+									size={"sm"}
+									className="my-auto space-x-2"
+								>
+									<span>Dashboard</span>{" "}
+									<LayoutDashboardIcon></LayoutDashboardIcon>
+								</Button>
+							)}
+						</Link>
+						<div className="my-auto">
+							{isSignedIn ? (
+								<UserButton />
+							) : (
+								<Button variant="outline" size="sm" asChild className="text-sm">
+									<Link href="/sign-in">Login</Link>
+								</Button>
+							)}
+						</div>
 					</div>
 
 					{/* Mobile Navigation */}

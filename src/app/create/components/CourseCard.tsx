@@ -15,17 +15,21 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { ICourse } from "@/model/course.model";
 import mongoose from "mongoose";
+import { useUser } from "@clerk/nextjs";
+import { Creator } from "@/types/User";
+import { Course } from "@/types/course";
 
-export interface Course {
-	_id: string; // Make sure this matches your actual data structure
-	title: string;
-	description: string;
-	price: number;
-	category: string;
-	thumbnailUrl: string;
-	averageRating?: number; // Optional field
-	// Add other properties as needed
-}
+// export interface Course {
+// 	_id: string; // Make sure this matches your actual data structure
+// 	title: string;
+// 	description: string;
+// 	price: number;
+// 	category: string;
+// 	thumbnailUrl: string;
+// 	averageRating?: number;
+// 	creator: Creator;// Optional field
+// 	// Add other properties as needed
+// }
 
 interface CourseCardProps {
 	course: ICourse;
@@ -33,6 +37,11 @@ interface CourseCardProps {
 }
 
 const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
+	const { user } = useUser();
+	const isCreator = course?.creator?.clerkUserId == user?.id;
+	// console.log(course?.creator?.clerkUserId, " : ", user?.id);
+	console.log("course: ", course);
+
 	return (
 		<Link href={`/course/${course._id}`}>
 			<Card
@@ -64,11 +73,13 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
 						<span className="font-medium">${course.price.toFixed(2)}</span>
 					</p>
 				</CardContent>
-
 				{/* Edit Button */}
-				<Link href={`/create/courses/${course._id}`}>
-					<Edit className="w-4 h-4 mr-1 absolute top-4 right-4 text-white hover:cursor-pointer" />
-				</Link>
+
+				{isCreator && (
+					<Link href={`/create/courses/${course.id}`}>
+						<Edit className="w-4 h-4 mr-1 absolute top-4 right-4 text-white hover:cursor-pointer" />
+					</Link>
+				)}
 			</Card>
 		</Link>
 	);

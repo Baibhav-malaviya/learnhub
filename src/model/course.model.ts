@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
+import { IUser } from "./user.model";
 
 // Define the interface for lessons within a section
 export interface ILesson {
@@ -92,6 +93,7 @@ export interface ICourse extends Document {
 	language: string;
 	thumbnailUrl?: string;
 	creatorId: mongoose.Types.ObjectId;
+	creator?: IUser;
 	sections: ISection[];
 	reviews: IReview[];
 	enrollmentCount: number;

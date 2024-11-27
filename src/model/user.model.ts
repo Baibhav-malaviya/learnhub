@@ -3,11 +3,11 @@ import mongoose, { Document, Schema, Model } from "mongoose";
 // Define the User interface for TypeScript
 export interface IUser extends Document {
 	_id: mongoose.Types.ObjectId;
-	bio: string;
-	clerkUserId: string;
-	email: string;
-	name: string;
-	role: "student" | "creator" | "admin";
+	bio?: string;
+	clerkUserId?: string;
+	email?: string;
+	name?: string;
+	role?: "student" | "creator" | "admin";
 	profileImage?: string;
 	enrolledCourses: mongoose.Types.ObjectId[];
 	createdCourses: mongoose.Types.ObjectId[];

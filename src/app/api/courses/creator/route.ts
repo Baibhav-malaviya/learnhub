@@ -20,11 +20,24 @@ export async function GET(req: NextRequest) {
 			);
 
 		// Find courses created by the specified creator
-		const creatorCourses = await Course.find({ creatorId: currentUser._id });
+		// const courses = await Course.find({ creatorId: currentUser._id });
+
+		const courses = await Course.find({ creatorId: currentUser._id })
+			.populate({
+				path: "creatorId", // Populates creator details from the User model
+				select: "_id clerkUserId email name profileImage", // Selects specific fields to include
+			})
+			.lean(); // Converts Mongoose documents to plain JavaScript objects
+
+		// Transform the response
+		const formattedCourses = courses.map((course) => ({
+			...course, // Spread the original course object
+			creator: course.creatorId, // Add a separate `creator` field with the populated details
+		}));
 
 		return NextResponse.json(
 			{
-				courses: creatorCourses,
+				courses: formattedCourses,
 				message: "Courses fetched successfully",
 				success: true,
 			},

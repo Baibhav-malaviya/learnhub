@@ -18,6 +18,13 @@ export async function GET(
 
 		const { courseId } = params;
 
+		const { userId } = await getAuth(req);
+
+		// If no user ID is found, return a 401 Unauthorized error
+		if (!userId) {
+			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+		}
+
 		// Validate the course ID
 		if (!Types.ObjectId.isValid(courseId)) {
 			return NextResponse.json(
@@ -31,38 +38,22 @@ export async function GET(
 			.populate({
 				path: "creatorId",
 				model: User,
-				select: "name email profileImage bio socialMediaLinks",
+				select: "clerkUserId name email profileImage bio socialMediaLinks",
 			})
 			.populate({
 				path: "sections.lessons",
 				select: "title content videoUrl duration preview", // Select necessary fields
 			});
 
+		console.log("course by id: ", course);
+
 		// If the course is not found, return a 404 error
 		if (!course) {
 			return NextResponse.json({ error: "Course not found" }, { status: 404 });
 		}
 
-		// Assuming the user is authenticated and their user ID is available in the request
-		// For example, `req.user._id` or using Clerk auth in Next.js
-
-		//todo we have to uncomment these two line to find the dynamic userId
-		// const { userId: clerkUserId } = await getAuth(req);
-		// const userId = await getUserByClerkId(clerkUserId!);
-
-		const userId = "66d3869fad40ecf643275338"; //todo this should be dynamic
-
-		if (!Types.ObjectId.isValid(userId)) {
-			return NextResponse.json({ error: "invalid user ID" }, { status: 400 });
-		}
-
-		// If no user ID is found, return a 401 Unauthorized error
-		if (!userId) {
-			return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-		}
-
-		// Fetch the user from the database
-		const user = await User.findById(userId);
+		// Find the user in the database using clerkUserId
+		const user = await User.findOne({ clerkUserId: userId });
 
 		// If the user is not found, return a 404 error
 		if (!user) {

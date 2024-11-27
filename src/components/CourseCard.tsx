@@ -5,6 +5,7 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import EnrollButton from "./EnrollButton";
 
 interface CourseCardProps {
 	course: Course;
@@ -57,7 +58,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
 				)}
 			</CardContent>
 			<CardFooter className="p-4 pt-0">
-				<Button className="w-full">Enroll Now</Button>
+				<EnrollButton courseId={course.id} />
 			</CardFooter>
 		</Card>
 	);

@@ -1,6 +1,7 @@
 import getUserByClerkId from "@/app/utils/getMongoUserId";
 import connectDB from "@/lib/connectDB";
 import Course from "@/model/course.model";
+import User from "@/model/user.model";
 import { getAuth } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -41,6 +42,13 @@ export async function POST(request: NextRequest) {
 		});
 
 		await newCourse.save();
+
+		// Update the current user (creator) by pushing the course ID to the createdCourses field
+		await User.findByIdAndUpdate(
+			currentUser?._id,
+			{ $push: { createdCourses: newCourse._id } },
+			{ new: true }
+		);
 
 		return NextResponse.json(
 			{

@@ -1,9 +1,10 @@
 // types/course.ts
 
+import { Creator } from "./User";
+
 export interface Course {
 	id: string; // Unique identifier for the course
 	title: string;
-	instructor: string;
 	rating: number;
 	numRatings: number;
 	numStudents: number;
@@ -12,5 +13,7 @@ export interface Course {
 	image: string;
 	duration: number; // Duration in hours
 	tags: string[]; // Array of tags for filtering
+	thumbnailUrl?: String;
 	category?: string;
+	creator?: Creator;
 }

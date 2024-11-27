@@ -21,6 +21,7 @@ import Section from "@/components/myComponents/Section";
 import SectionsAccordion from "../components/SectionsAccordion";
 import { ISection } from "../components/SectionsAccordion";
 import Link from "next/link";
+import EnrollButton from "@/components/EnrollButton";
 
 export interface ICourse {
 	_id: string;
@@ -84,6 +85,7 @@ const SocialIcon: React.FC<SocialIconProps> = ({ platform, link }) => {
 
 export default function CoursePage() {
 	const { id } = useParams();
+	console.log("courseId: ", id);
 	const [course, setCourse] = useState<ICourse | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [isEnrolled, setIsEnrolled] = useState(false);
@@ -198,12 +200,7 @@ export default function CoursePage() {
 					<div className="flex justify-between items-center">
 						<p className="text-2xl font-bold">${course.price.toFixed(2)}</p>
 						<div className="flex space-x-4">
-							<Button size="lg" onClick={() => alert("underdevelopment")}>
-								Enroll Now
-							</Button>
-							<Link href={`${id}/learn`}>
-								<Button size={"lg"}>Go to course</Button>
-							</Link>
+							<EnrollButton courseId={course._id} />
 						</div>
 					</div>
 				</CardContent>
