@@ -33,7 +33,7 @@ const UserSchema = new Schema<IUser>(
 		},
 		bio: {
 			type: String,
-			required: true,
+			required: false,
 		},
 		email: {
 			type: String,
