@@ -22,7 +22,7 @@ const featuredPosts: FeaturedPost[] = [
 
 const FeaturedPosts = () => {
 	return (
-		<Section className="grid grid-cols-1 md:grid-cols-2 gap-12 container justify-between">
+		<Section className="grid grid-cols-1 md:grid-cols-2 gap-12 justify-between container  px-0">
 			{featuredPosts.map((post, index) => (
 				<Card
 					key={index}
