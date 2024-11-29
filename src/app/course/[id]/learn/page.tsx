@@ -30,24 +30,47 @@ export default function LearnPage() {
 
 	// Function to handle the "Next" button click
 	const handleNextLesson = () => {
-		nextHandler(
-			currentSectionIndex,
-			currentLessonIndex,
-			course?.sections || [],
-			setCurrentSectionIndex,
-			setCurrentLessonIndex
-		);
+		if (!course) return;
+
+		const currentSection = course.sections[currentSectionIndex];
+		if (currentLessonIndex < currentSection.lessons.length - 1) {
+			// Move to the next lesson in the current section
+			setCurrentLessonIndex(currentLessonIndex + 1);
+			setCurrentLesson(currentSection.lessons[currentLessonIndex + 1]);
+		} else if (currentSectionIndex < course.sections.length - 1) {
+			// Move to the first lesson of the next section
+			const nextSectionIndex = currentSectionIndex + 1;
+			setCurrentSectionIndex(nextSectionIndex);
+			setCurrentLessonIndex(0);
+			setCurrentLesson(course.sections[nextSectionIndex].lessons[0]);
+		} else {
+			console.log("You have completed the course!");
+		}
 	};
 
 	// Function to handle the "Previous" button click
 	const handlePrevLesson = () => {
-		prevHandler(
-			currentSectionIndex,
-			currentLessonIndex,
-			course?.sections || [],
-			setCurrentSectionIndex,
-			setCurrentLessonIndex
-		);
+		if (!course) return;
+
+		if (currentLessonIndex > 0) {
+			// Move to the previous lesson in the current section
+			setCurrentLessonIndex(currentLessonIndex - 1);
+			setCurrentLesson(
+				course.sections[currentSectionIndex].lessons[currentLessonIndex - 1]
+			);
+		} else if (currentSectionIndex > 0) {
+			// Move to the last lesson of the previous section
+			const prevSectionIndex = currentSectionIndex - 1;
+			setCurrentSectionIndex(prevSectionIndex);
+			const lastLessonIndex =
+				course.sections[prevSectionIndex].lessons.length - 1;
+			setCurrentLessonIndex(lastLessonIndex);
+			setCurrentLesson(
+				course.sections[prevSectionIndex].lessons[lastLessonIndex]
+			);
+		} else {
+			console.log("You are at the beginning of the course.");
+		}
 	};
 
 	useEffect(() => {
@@ -57,6 +80,7 @@ export default function LearnPage() {
 				const data = await response.json();
 				setCourse(data.course);
 				setIsEnrolled(data.isEnrolled);
+				console.log("isEnrolled: ", isEnrolled);
 				if (
 					data.course.sections.length > 0 &&
 					data.course.sections[0].lessons.length > 0
@@ -78,10 +102,10 @@ export default function LearnPage() {
 	if (loading) {
 		return (
 			<Section className="container mx-auto p-4">
-				<Skeleton className="h-64 w-full mb-4" />
-				<Skeleton className="h-8 w-2/3 mb-2" />
-				<Skeleton className="h-4 w-full mb-4" />
-				<Skeleton className="h-20 w-full mb-4" />
+				<Skeleton className="animate-pulse h-64 w-full mb-4" />
+				<Skeleton className="animate-pulse h-8 w-2/3 mb-2" />
+				<Skeleton className="animate-pulse h-4 w-full mb-4" />
+				<Skeleton className="animate-pulse h-20 w-full mb-4" />
 			</Section>
 		);
 	}
@@ -95,15 +119,13 @@ export default function LearnPage() {
 			<div className="md:col-span-2">
 				{/* Video Player */}
 				<div className="mb-4">
-					{/* <video
-						controls
-						src={currentLesson?.videoUrl} // Replace with the actual video URL
-						className="w-full h-64 object-cover rounded-lg"
-					></video> */}
 					{currentLesson?.videoUrl ? (
 						<VideoPlayer src={currentLesson.videoUrl} />
 					) : (
-						<div className="h-10 w-16 text-primary"> Video preparing...</div>
+						<div className="w-full aspect-[16/9] text-center bg-slate-700/50 text-primary">
+							{" "}
+							Video preparing...
+						</div>
 					)}
 				</div>
 
@@ -154,46 +176,4 @@ export default function LearnPage() {
 			</div>
 		</Section>
 	);
-}
-
-function nextHandler(
-	currentSectionIndex: number,
-	currentLessonIndex: number,
-	sections: ISection[],
-	setCurrentSectionIndex: React.Dispatch<React.SetStateAction<number>>,
-	setCurrentLessonIndex: React.Dispatch<React.SetStateAction<number>>
-) {
-	const currentSection = sections[currentSectionIndex];
-
-	if (currentLessonIndex < currentSection.lessons.length - 1) {
-		// Move to the next lesson within the current section
-		setCurrentLessonIndex(currentLessonIndex + 1);
-	} else if (currentSectionIndex < sections.length - 1) {
-		// Move to the first lesson of the next section
-		setCurrentSectionIndex(currentSectionIndex + 1);
-		setCurrentLessonIndex(0);
-	} else {
-		// Handle the case where the last lesson is reached
-		console.log("You have completed the course!");
-	}
-}
-
-function prevHandler(
-	currentSectionIndex: number,
-	currentLessonIndex: number,
-	sections: ISection[],
-	setCurrentSectionIndex: React.Dispatch<React.SetStateAction<number>>,
-	setCurrentLessonIndex: React.Dispatch<React.SetStateAction<number>>
-) {
-	if (currentLessonIndex > 0) {
-		// Move to the previous lesson within the current section
-		setCurrentLessonIndex(currentLessonIndex - 1);
-	} else if (currentSectionIndex > 0) {
-		// Move to the last lesson of the previous section
-		setCurrentSectionIndex(currentSectionIndex - 1);
-		setCurrentLessonIndex(sections[currentSectionIndex - 1].lessons.length - 1);
-	} else {
-		// Handle the case where the first lesson is reached
-		console.log("You are at the beginning of the course.");
-	}
 }

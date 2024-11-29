@@ -27,13 +27,13 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 		const cacheKey = `lessons_${courseId}_${sectionId}`;
 		const cachedLessons = await redis.get(cacheKey);
 
-		if (cachedLessons) {
-			return NextResponse.json({
-				message: "Lessons fetched successfully (from cache)",
-				success: true,
-				lessons: JSON.parse(cachedLessons),
-			});
-		}
+		// if (cachedLessons) {
+		// 	return NextResponse.json({
+		// 		message: "Lessons fetched successfully (from cache)",
+		// 		success: true,
+		// 		lessons: JSON.parse(cachedLessons),
+		// 	});
+		// }
 
 		// Validate and convert IDs to ObjectId
 		const courseObjectId = mongoose.Types.ObjectId.isValid(courseId)

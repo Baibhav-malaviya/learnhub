@@ -22,6 +22,7 @@
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.1",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
     "@types/mongoose": "^5.11.97",
     "@types/video.js": "^7.3.58",
     "@videojs/http-streaming": "^3.13.2",

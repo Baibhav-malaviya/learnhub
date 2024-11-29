@@ -29,7 +29,8 @@ const UpdateLessonForm: React.FC<LessonUpdateFormProps> = ({
 	const [isLoading, setIsLoading] = useState(false);
 
 	const { toast } = useToast();
-	const router = useRouter();
+
+	console.log(lesson);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -102,7 +103,7 @@ const UpdateLessonForm: React.FC<LessonUpdateFormProps> = ({
 			</div>
 
 			<div className="flex items-center space-x-3">
-				<Label htmlFor="preview">Preview</Label>
+				<Label htmlFor="preview">Preview:</Label>
 				<Switch
 					id="preview"
 					checked={preview}

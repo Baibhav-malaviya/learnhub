@@ -36,7 +36,8 @@ const CoursePage = ({ params }: { params: { courseId: string } }) => {
 		setSections((prevSections) => [...prevSections, newSection]);
 	};
 
-	if (loading) return <div>Loading...</div>;
+	if (loading)
+		return <div className="bg-primary-foreground p-4">Loading...</div>;
 	if (error) return <div>{error}</div>;
 
 	return (

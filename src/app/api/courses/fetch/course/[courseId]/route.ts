@@ -63,6 +63,8 @@ export async function GET(
 		// Check if the user is enrolled in the course
 		const isEnrolled = user.enrolledCourses.includes(courseId);
 
+		console.log("isEnrolled: ", isEnrolled);
+
 		// Transform the lessons based on enrollment status
 		const transformedSections = course.sections.map((section) => {
 			const transformedLessons = section.lessons.map((lesson) => ({

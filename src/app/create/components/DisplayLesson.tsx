@@ -32,7 +32,7 @@ const DisplayLesson = () => {
 				const response = await axios.get(
 					`/api/courses/fetch/lessons?courseId=${courseId}&sectionId=${sectionId}`
 				);
-				console.log("Response: ", response);
+				// console.log("Response: ", response);
 				if (response.data.success) {
 					setLessons(response.data.lessons);
 				} else {

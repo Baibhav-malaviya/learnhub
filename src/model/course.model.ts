@@ -31,10 +31,6 @@ const SectionSchema: Schema<ISection> = new Schema({
 				preview: { type: Boolean, default: false },
 			},
 		],
-		validate: {
-			validator: (v) => v.length > 0,
-			message: "Each section must have at least one lesson",
-		},
 	},
 });
 

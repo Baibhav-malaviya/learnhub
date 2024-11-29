@@ -18,26 +18,33 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src }) => {
 				hls.loadSource(src);
 				hls.attachMedia(videoElement);
 				hls.on(Hls.Events.MANIFEST_PARSED, () => {
-					videoElement?.play();
+					console.log("HLS manifest parsed.");
+				});
+
+				hls.on(Hls.Events.ERROR, (event, data) => {
+					console.error("HLS.js error:", data);
 				});
 			} else if (videoElement.canPlayType("application/vnd.apple.mpegurl")) {
 				videoElement.src = src;
 				videoElement.addEventListener("loadedmetadata", () => {
-					videoElement?.play();
+					console.log("Video metadata loaded.");
 				});
 			}
 
 			return () => {
-				if (hls) {
-					hls.destroy();
-				}
+				hls.destroy();
 			};
 		}
 	}, [src]);
 
 	return (
-		<div className="video-container w-full h-auto">
-			<video ref={videoRef} className="video-js" controls></video>
+		<div className="relative aspect-[16/9] rounded-lg bg-black shadow-lg hover:shadow-xl transition-shadow duration-300">
+			<video
+				ref={videoRef}
+				className="w-full h-full rounded-lg"
+				controls
+				muted
+			></video>
 		</div>
 	);
 };
