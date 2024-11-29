@@ -18,6 +18,7 @@ import mongoose from "mongoose";
 import { useUser } from "@clerk/nextjs";
 import { Creator } from "@/types/User";
 import { Course } from "@/types/course";
+import BuyCourseButton from "@/components/BuyCourseButton";
 
 // export interface Course {
 // 	_id: string; // Make sure this matches your actual data structure
@@ -81,6 +82,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
 					</Link>
 				)}
 			</Card>
+			<BuyCourseButton courseId={course._id} />
 		</Link>
 	);
 };

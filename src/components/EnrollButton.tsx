@@ -7,12 +7,14 @@ import { Loader } from "lucide-react"; // Adjust path as needed
 import axios from "axios";
 import Link from "next/link";
 import { useAuth } from "@clerk/nextjs";
+import { useRequireAuth } from "./hooks/useRequireAuth";
 
 const EnrollButton = ({ courseId }: { courseId: string }) => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [isEnrolled, setIsEnrolled] = useState(false);
 	const { toast } = useToast();
 	const { isSignedIn } = useAuth(); // Use Clerk's useAuth hook
+	const { requireAuth } = useRequireAuth();
 
 	useEffect(() => {
 		if (isSignedIn) {
@@ -33,15 +35,7 @@ const EnrollButton = ({ courseId }: { courseId: string }) => {
 	}, [courseId, isSignedIn]);
 
 	const handleEnrollment = async () => {
-		if (!isSignedIn) {
-			toast({
-				variant: "destructive",
-				title: "Login Required",
-				description: "Please log in to enroll in the course.",
-			});
-			return;
-		}
-
+		if (!requireAuth("enroll in this course")) return;
 		setIsLoading(true);
 		try {
 			// Call the enrollment API

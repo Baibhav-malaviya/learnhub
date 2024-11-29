@@ -113,12 +113,6 @@ const CourseSchema: Schema<ICourse> = new Schema(
 			{
 				type: mongoose.Types.ObjectId,
 				ref: "User",
-				validate: {
-					validator: function (v) {
-						return v.length === new Set(v.map((id: any) => id.toString())).size;
-					},
-					message: "A student cannot be enrolled more than once",
-				},
 			},
 		],
 		tags: [

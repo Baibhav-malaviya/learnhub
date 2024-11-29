@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { LayoutDashboardIcon, Menu } from "lucide-react";
 import Logo from "./Logo";
 import { usePathname } from "next/navigation";
+import QRScanner from "@/components/QRCodeScanner";
 
 const NavigationBar = () => {
 	const { user, isSignedIn } = useUser();
@@ -67,7 +68,10 @@ const NavigationBar = () => {
 						</Link>
 						<div className="my-auto">
 							{isSignedIn ? (
-								<UserButton />
+								<div className="flex gap-4">
+									<QRScanner />
+									<UserButton />
+								</div>
 							) : (
 								<Button variant="outline" size="sm" asChild className="text-sm">
 									<Link href="/sign-in">Login</Link>
@@ -100,7 +104,10 @@ const NavigationBar = () => {
 									))}
 									<li>
 										{isSignedIn ? (
-											<UserButton />
+											<div>
+												<QRScanner />
+												<UserButton />
+											</div>
 										) : (
 											<Button
 												variant="outline"
