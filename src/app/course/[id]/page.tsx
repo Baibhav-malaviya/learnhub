@@ -8,7 +8,11 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { formatMongoDBDate, getProfileInitials } from "@/utils/commonFunc";
+import {
+	formatMongoDBDate,
+	generateCreatorUrl,
+	getProfileInitials,
+} from "@/utils/commonFunc";
 import {
 	Facebook,
 	Twitter,
@@ -85,7 +89,7 @@ const SocialIcon: React.FC<SocialIconProps> = ({ platform, link }) => {
 
 export default function CoursePage() {
 	const { id } = useParams();
-	console.log("courseId: ", id);
+
 	const [course, setCourse] = useState<ICourse | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [isEnrolled, setIsEnrolled] = useState(false);
@@ -95,7 +99,7 @@ export default function CoursePage() {
 			try {
 				const response = await fetch(`/api/courses/fetch/course/${id}`);
 				const data = await response.json();
-				console.log("courses: ", data.course);
+
 				setCourse(data.course);
 				setIsEnrolled(data.isEnrolled);
 			} catch (error) {
@@ -165,7 +169,11 @@ export default function CoursePage() {
 								<h2 className="text-base font-semibold mb-1">
 									<span className="text-muted-foreground">Created by: </span>
 									<Link
-										href={`/user/${course.creator._id}`}
+										// href={`/user/${course.creator._id}`}
+										href={generateCreatorUrl(
+											course.creator._id,
+											course.creator.name
+										)}
 										className="underline italic font-sans"
 									>
 										{course.creator.name}

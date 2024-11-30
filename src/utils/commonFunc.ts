@@ -1,5 +1,12 @@
+import mongoose from "mongoose";
+
 export const generateSlug = (title: string) => {
 	return encodeURIComponent(title.toLowerCase().trim().replace(/\s+/g, "-"));
+};
+
+export const generateCreatorUrl = (creatorId: string, creatorName: string) => {
+	const slug = generateSlug(creatorName);
+	return `/creator/${creatorId}/${slug}`;
 };
 
 export function truncateString(str: string, maxLength: number): string {

@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button"; // Assuming you have a Button component in your project
 import { formatNumberWithCommas } from "@/utils/commonFunc";
+import { ICourse } from "@/model/course.model";
 
 function SearchCourse() {
 	const searchParams = useSearchParams();
@@ -186,7 +187,7 @@ function SearchCourse() {
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{/* Display the courses */}
 					{courses.length > 0 ? (
-						courses.map((course: any, idx) => (
+						courses.map((course: ICourse, idx) => (
 							<CourseCard key={idx} course={course} />
 						))
 					) : (
