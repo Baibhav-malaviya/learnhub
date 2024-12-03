@@ -1,5 +1,14 @@
 import mongoose, { Document, Schema, Model } from "mongoose";
 
+export interface ISocialMediaLinks {
+	facebook?: string;
+	twitter?: string;
+	linkedin?: string;
+	instagram?: string;
+	youtube?: string;
+	[key: string]: string | undefined; // Allows for additional platforms
+}
+
 // Define the User interface for TypeScript
 export interface IUser extends Document {
 	_id: mongoose.Types.ObjectId;
@@ -11,14 +20,7 @@ export interface IUser extends Document {
 	profileImage?: string;
 	enrolledCourses: mongoose.Types.ObjectId[];
 	createdCourses: mongoose.Types.ObjectId[];
-	socialMediaLinks?: {
-		facebook?: string;
-		twitter?: string;
-		linkedin?: string;
-		instagram?: string;
-		youtube?: string;
-		// Add more platforms as needed
-	};
+	socialMediaLinks?: ISocialMediaLinks;
 	createdAt: Date;
 	updatedAt: Date;
 }

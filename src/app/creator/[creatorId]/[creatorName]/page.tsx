@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Users, BookOpen, Clock, PlayCircle } from "lucide-react";
+import { Users, BookOpen, Clock } from "lucide-react";
 import CourseCard from "@/app/create/components/CourseCard";
 import { IUser } from "@/model/user.model";
 import { ICourse } from "@/model/course.model";
@@ -123,7 +123,7 @@ const CreatorPage: React.FC<CreatorPageProps> = ({ params: { creatorId } }) => {
 	return (
 		<div className="container mx-auto py-8 max-w-6xl">
 			<Card className="w-full p-6 mb-8 shadow-sm">
-				<div className="flex flex-col md:flex-row items-start gap-6">
+				<div className="flex h-32 flex-col md:flex-row items-start gap-6">
 					<Avatar className="h-32 w-32 border-2 border-primary">
 						<AvatarImage
 							src={creator?.profileImage || "/default-avatar.png"}
@@ -133,18 +133,84 @@ const CreatorPage: React.FC<CreatorPageProps> = ({ params: { creatorId } }) => {
 						<AvatarFallback>{creator?.name?.charAt(0) || "C"}</AvatarFallback>
 					</Avatar>
 
-					<div className="text-center md:text-left space-y-2 flex-grow">
-						<h1 className="text-2xl font-bold text-primary">
-							{creator?.name || "Unknown Creator"}
-						</h1>
-						<Badge variant="secondary" className="capitalize">
-							{creator?.role || "Creator"}
-						</Badge>
+					<div className="flex flex-col justify-between h-full ">
+						<div className="text-center md:text-left space-y-2 flex-grow">
+							<h1 className="text-2xl font-bold text-primary">
+								{creator?.name || "Unknown Creator"}
+							</h1>
+							<Badge variant="secondary" className="capitalize">
+								{creator?.role || "Creator"}
+							</Badge>
+						</div>
+
+						{creator?.socialMediaLinks && (
+							<div className="mt-4 flex justify-center md:justify-start gap-4">
+								{creator.socialMediaLinks.facebook && (
+									<a
+										href={creator.socialMediaLinks.facebook}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-[#1877F2] transition-all duration-300 hover:scale-110 p-2 bg-secondary rounded-lg"
+										aria-label="Facebook"
+									>
+										<Facebook className="w-6 h-6" />
+									</a>
+								)}
+
+								{creator.socialMediaLinks.twitter && (
+									<a
+										href={creator.socialMediaLinks.twitter}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-[#1DA1F2] transition-all duration-300 hover:scale-110 p-2 bg-secondary rounded-lg"
+										aria-label="Twitter"
+									>
+										<Twitter className="w-6 h-6" />
+									</a>
+								)}
+
+								{creator.socialMediaLinks.linkedin && (
+									<a
+										href={creator.socialMediaLinks.linkedin}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-[#0A66C2] transition-all duration-300 hover:scale-110 p-2 bg-secondary rounded-lg"
+										aria-label="LinkedIn"
+									>
+										<Linkedin className="w-6 h-6" />
+									</a>
+								)}
+
+								{creator.socialMediaLinks.instagram && (
+									<a
+										href={creator.socialMediaLinks.instagram}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-[#E4405F] transition-all duration-300 hover:scale-110 p-2 bg-secondary rounded-lg"
+										aria-label="Instagram"
+									>
+										<Instagram className="w-6 h-6" />
+									</a>
+								)}
+
+								{creator.socialMediaLinks.youtube && (
+									<a
+										href={creator.socialMediaLinks.youtube}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="text-[#FF0000] transition-all duration-300 hover:scale-110 p-2 bg-secondary rounded-lg"
+										aria-label="YouTube"
+									>
+										<Youtube className="w-6 h-6" />
+									</a>
+								)}
+							</div>
+						)}
 					</div>
 				</div>
 
 				<div className="mt-6 text-center md:text-left">
-					<p className="text-muted-foreground">
+					<p className="text-muted-foreground text-sm font-semibold font-sans">
 						{creator?.bio || "No bio available."}
 					</p>
 
@@ -156,70 +222,6 @@ const CreatorPage: React.FC<CreatorPageProps> = ({ params: { creatorId } }) => {
 							</span>
 						</p>
 					</div>
-
-					{creator?.socialMediaLinks && (
-						<div className="mt-4 flex justify-center md:justify-start gap-4">
-							{creator.socialMediaLinks.facebook && (
-								<a
-									href={creator.socialMediaLinks.facebook}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="text-[#1877F2] transition-all duration-300 hover:scale-110 p-2 bg-secondary rounded-lg"
-									aria-label="Facebook"
-								>
-									<Facebook className="w-6 h-6" />
-								</a>
-							)}
-
-							{creator.socialMediaLinks.twitter && (
-								<a
-									href={creator.socialMediaLinks.twitter}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="text-[#1DA1F2] transition-all duration-300 hover:scale-110 p-2 bg-secondary rounded-lg"
-									aria-label="Twitter"
-								>
-									<Twitter className="w-6 h-6" />
-								</a>
-							)}
-
-							{creator.socialMediaLinks.linkedin && (
-								<a
-									href={creator.socialMediaLinks.linkedin}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="text-[#0A66C2] transition-all duration-300 hover:scale-110 p-2 bg-secondary rounded-lg"
-									aria-label="LinkedIn"
-								>
-									<Linkedin className="w-6 h-6" />
-								</a>
-							)}
-
-							{creator.socialMediaLinks.instagram && (
-								<a
-									href={creator.socialMediaLinks.instagram}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="text-[#E4405F] transition-all duration-300 hover:scale-110 p-2 bg-secondary rounded-lg"
-									aria-label="Instagram"
-								>
-									<Instagram className="w-6 h-6" />
-								</a>
-							)}
-
-							{creator.socialMediaLinks.youtube && (
-								<a
-									href={creator.socialMediaLinks.youtube}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="text-[#FF0000] transition-all duration-300 hover:scale-110 p-2 bg-secondary rounded-lg"
-									aria-label="YouTube"
-								>
-									<Youtube className="w-6 h-6" />
-								</a>
-							)}
-						</div>
-					)}
 				</div>
 			</Card>
 

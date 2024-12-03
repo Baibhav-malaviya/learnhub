@@ -14,7 +14,7 @@ export async function GET(
 	try {
 		// Fetch the creator details
 		const creator = await User.findById(creatorId).select(
-			"name bio email profileImage"
+			"name bio email profileImage socialMediaLinks"
 		);
 
 		if (!creator) {
