@@ -9,7 +9,6 @@ import {
 	useStripe,
 	useElements,
 } from "@stripe/react-stripe-js";
-import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/hooks/use-toast";
 import { Loader } from "lucide-react";
 import SubmitButton from "@/components/SubmitButton";
@@ -28,7 +27,7 @@ const PaymentForm = ({
 	const { toast } = useToast();
 	const stripe = useStripe();
 	const elements = useElements();
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const handlePayment = async () => {
 		if (!stripe || !elements || !clientSecret) return;
