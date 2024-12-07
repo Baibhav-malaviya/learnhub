@@ -208,7 +208,7 @@ export default function CoursePage() {
 					<div className="flex justify-between items-center">
 						<p className="text-2xl font-bold">${course.price.toFixed(2)}</p>
 						<div className="flex space-x-4">
-							<EnrollButton courseId={course._id} />
+							<EnrollButton courseId={course._id} coursePrice={course.price} />
 						</div>
 					</div>
 				</CardContent>

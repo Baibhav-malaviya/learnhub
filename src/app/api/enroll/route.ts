@@ -3,6 +3,8 @@ import { auth, getAuth } from "@clerk/nextjs/server";
 import connectDB from "@/lib/connectDB";
 import User from "@/model/user.model";
 import Course from "@/model/course.model";
+import mongoose from "mongoose";
+import { enrollUserInCourse } from "@/lib/routeFunction";
 
 export async function POST(req: NextRequest) {
 	try {
@@ -23,35 +25,22 @@ export async function POST(req: NextRequest) {
 			);
 		}
 
-		// Fetch course
-		const course = await Course.findById(courseId);
-		if (!course) {
-			return NextResponse.json({ error: "Course not found" }, { status: 404 });
-		}
-
-		// Fetch user
 		const user = await User.findOne({ clerkUserId: userId });
-		if (!user) {
-			return NextResponse.json({ error: "User not found" }, { status: 404 });
-		}
 
-		// Check if the user is already enrolled
-		if (user.enrolledCourses.includes(courseId)) {
-			return NextResponse.json(
-				{ error: "Already enrolled in this course" },
-				{ status: 400 }
-			);
-		}
-
+		if (!user)
+			return NextResponse.json({ success: false, message: "User not found" });
 		// Enroll the user
-		user.enrolledCourses.push(courseId);
-		course.enrollmentCount += 1;
-		course.enrolledStudent.push(user._id);
-		await user.save();
-		await course.save();
+		const result = await enrollUserInCourse(user._id, courseId);
+
+		if (!result.success) {
+			return NextResponse.json({ message: result.message }, { status: 400 });
+		}
 
 		return NextResponse.json(
-			{ message: "Enrollment successful", enrolledCourseId: courseId },
+			{
+				message: result.message,
+				enrolledCourseId: result.enrolledCourseId,
+			},
 			{ status: 200 }
 		);
 	} catch (error: any) {

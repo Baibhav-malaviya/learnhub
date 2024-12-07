@@ -58,7 +58,7 @@ const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
 				)}
 			</CardContent>
 			<CardFooter className="p-4 pt-0">
-				<EnrollButton courseId={course.id} />
+				<EnrollButton courseId={course.id} coursePrice={course.price} />
 			</CardFooter>
 		</Card>
 	);
