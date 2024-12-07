@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/hooks/use-toast";
 import { Loader } from "lucide-react";
+import SubmitButton from "@/components/SubmitButton";
 
 // Set your Stripe public key
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
@@ -27,12 +28,14 @@ const PaymentForm = ({
 	const { toast } = useToast();
 	const stripe = useStripe();
 	const elements = useElements();
+	const [isLoading, setIsLoading] = useState(true);
 
 	const handlePayment = async () => {
 		if (!stripe || !elements || !clientSecret) return;
 
 		const cardElement = elements.getElement(CardElement);
 		if (!cardElement) return;
+		setIsLoading(true);
 
 		try {
 			const { error, paymentIntent } = await stripe.confirmCardPayment(
@@ -65,11 +68,13 @@ const PaymentForm = ({
 			toast({
 				description: "An error occurred while processing the payment.",
 			});
+		} finally {
+			setIsLoading(false);
 		}
 	};
 
 	return (
-		<>
+		<form onSubmit={handlePayment}>
 			<h3 className="text-lg font-semibold mb-4">Enter Your Card Details</h3>
 			<div className="mb-6">
 				<CardElement
@@ -93,10 +98,14 @@ const PaymentForm = ({
 					}}
 				/>
 			</div>
-			<Button onClick={handlePayment} className="w-full mt-4">
+			<SubmitButton
+				loadingText="Processing..."
+				isLoading={isLoading}
+				className="w-full mt-4"
+			>
 				Complete Payment
-			</Button>
-		</>
+			</SubmitButton>
+		</form>
 	);
 };
 
