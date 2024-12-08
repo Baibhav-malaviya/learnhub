@@ -29,7 +29,8 @@ const PaymentForm = ({
 	const elements = useElements();
 	const [isLoading, setIsLoading] = useState(false);
 
-	const handlePayment = async () => {
+	const handlePayment = async (e: any) => {
+		e.preventDefault();
 		if (!stripe || !elements || !clientSecret) return;
 
 		const cardElement = elements.getElement(CardElement);
@@ -48,6 +49,8 @@ const PaymentForm = ({
 					// },
 				}
 			);
+
+			console.log("paymentIntent: ", paymentIntent);
 
 			if (error) {
 				toast({
@@ -117,6 +120,8 @@ const PaymentPage = ({ params }: { params: { id: string } }) => {
 	useEffect(() => {
 		const queryParams = new URLSearchParams(window.location.search);
 		const clientSecretFromUrl = queryParams.get("clientSecret");
+
+		console.log("clientSecretFromUrl: ", clientSecretFromUrl);
 
 		if (clientSecretFromUrl) {
 			setClientSecret(clientSecretFromUrl);

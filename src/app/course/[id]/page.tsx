@@ -135,7 +135,7 @@ export default function CoursePage() {
 		<Section className="container mx-auto p-4">
 			<Card>
 				<Image
-					src={course.thumbnailUrl}
+					src={course.thumbnailUrl || ""}
 					alt={course.title}
 					className="w-full h-64 object-cover rounded-t-lg"
 					width={1200}
