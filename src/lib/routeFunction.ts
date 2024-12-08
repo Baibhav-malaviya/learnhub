@@ -3,7 +3,7 @@ import User from "@/model/user.model";
 import mongoose from "mongoose";
 
 export async function enrollUserInCourse(
-	userId: mongoose.Types.ObjectId, // this is clerk user id
+	userId: mongoose.Types.ObjectId, // clerk user id
 	courseId: mongoose.Types.ObjectId
 ) {
 	try {
@@ -17,11 +17,23 @@ export async function enrollUserInCourse(
 		}
 
 		// Fetch user
-		const user = await User.findOne({ clerkUserId: userId });
+		const user = await User.findById(userId);
 		if (!user) {
 			return {
 				success: false,
-				message: "User not found",
+				message: "User not found routeFunction",
+			};
+		}
+
+		// Check if already enrolled (prevents duplicate enrollment)
+		const isAlreadyEnrolled = user.enrolledCourses.some(
+			(enrolledCourse) => enrolledCourse.toString() === courseId.toString()
+		);
+
+		if (isAlreadyEnrolled) {
+			return {
+				success: false,
+				message: "Already enrolled in this course",
 			};
 		}
 
@@ -30,8 +42,16 @@ export async function enrollUserInCourse(
 		course.enrollmentCount += 1;
 		course.enrolledStudent.push(user._id);
 
-		await user.save();
-		await course.save();
+		// Consider using a transaction for atomic updates
+		const session = await mongoose.startSession();
+		try {
+			await session.withTransaction(async () => {
+				await user.save({ session });
+				await course.save({ session });
+			});
+		} finally {
+			session.endSession();
+		}
 
 		return {
 			success: true,
