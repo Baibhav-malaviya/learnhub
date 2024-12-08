@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { toast } from "./use-toast";
 
 interface UsePaymentProps {
 	courseId: string;
@@ -33,8 +34,9 @@ const usePayment = ({
 				`/course/${courseId}/payment?clientSecret=${data.clientSecret}`
 			);
 		} catch (err) {
-			console.error("Payment initiation failed:", err);
-			alert("Something went wrong. Please try again.");
+			toast({
+				description: `Payment initiation failed: ${err}`,
+			});
 		} finally {
 			setLoading(false);
 		}

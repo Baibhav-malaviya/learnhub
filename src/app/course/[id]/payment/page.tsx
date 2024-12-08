@@ -121,8 +121,6 @@ const PaymentPage = ({ params }: { params: { id: string } }) => {
 		const queryParams = new URLSearchParams(window.location.search);
 		const clientSecretFromUrl = queryParams.get("clientSecret");
 
-		console.log("clientSecretFromUrl: ", clientSecretFromUrl);
-
 		if (clientSecretFromUrl) {
 			setClientSecret(clientSecretFromUrl);
 			setLoading(false);
