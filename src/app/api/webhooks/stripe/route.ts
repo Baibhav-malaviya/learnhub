@@ -10,6 +10,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
 
 export async function POST(req: NextRequest) {
 	try {
+		if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) {
+			throw new Error("Stripe environment variables are not set.");
+		}
+
 		await connectDB(); // Connect to your database
 
 		const sig = req.headers.get("stripe-signature")!;
@@ -35,40 +39,48 @@ export async function POST(req: NextRequest) {
 
 		switch (type) {
 			case "payment_intent.succeeded":
-				// Find the payment record
-				const payment = await Payment.findOne({
-					transactionId: paymentIntent.id,
-				});
+				try {
+					const payment = await Payment.findOne({
+						transactionId: paymentIntent.id,
+					});
 
-				if (payment) {
-					// Update payment status
+					if (!payment) {
+						console.warn(
+							`Payment record not found for transaction ID: ${paymentIntent.id}`
+						);
+						break;
+					}
+
 					await Payment.findOneAndUpdate(
 						{ transactionId: paymentIntent.id },
 						{ paymentStatus: "succeeded" }
 					);
 
-					// Enroll user in the course
 					const enrollmentResult = await enrollUserInCourse(
-						payment.userId, // Assuming you store Clerk user ID in the payment record
-						payment.courseId // Assuming you store course ID in the payment record
+						payment.userId,
+						payment.courseId
 					);
 
 					if (!enrollmentResult.success) {
 						console.error("Enrollment failed:", enrollmentResult.message);
-						// Optionally, you might want to handle enrollment failures
-						// Perhaps by updating the payment status or logging
 					}
+				} catch (err) {
+					console.error("Error processing payment_intent.succeeded:", err);
 				}
 				break;
 
 			case "payment_intent.payment_failed":
-				await Payment.findOneAndUpdate(
-					{ transactionId: paymentIntent.id },
-					{
-						paymentStatus: "failed",
-						failureReason: paymentIntent.last_payment_error?.message,
-					}
-				);
+				try {
+					await Payment.findOneAndUpdate(
+						{ transactionId: paymentIntent.id },
+						{
+							paymentStatus: "failed",
+							failureReason: paymentIntent.last_payment_error?.message,
+						}
+					);
+				} catch (err) {
+					console.error("Error processing payment_intent.payment_failed:", err);
+				}
 				break;
 
 			default:
