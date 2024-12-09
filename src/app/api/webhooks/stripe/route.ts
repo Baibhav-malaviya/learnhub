@@ -4,25 +4,24 @@ import connectDB from "@/lib/connectDB";
 import Payment from "@/model/payment.model";
 import { enrollUserInCourse } from "@/lib/routeFunction";
 
-// Stripe initialization with improved typing
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 	apiVersion: "2024-11-20.acacia",
 });
 
-// Environment variables validation
+// Validate environment variables
 function validateEnvironment() {
 	const requiredEnvVars = ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET"];
-
 	for (const envVar of requiredEnvVars) {
 		if (!process.env[envVar]) {
 			const errorMessage = `Missing required environment variable: ${envVar}`;
 			console.error(errorMessage);
 			throw new Error(errorMessage);
 		}
+		console.log(`${envVar}: ${process.env[envVar]}`);
 	}
 }
 
-// Centralized error logging
+// Centralized error logger
 function logError(context: string, error: unknown) {
 	console.error(
 		`[Stripe Webhook Error - ${context}]`,
@@ -31,14 +30,11 @@ function logError(context: string, error: unknown) {
 }
 
 export async function POST(req: NextRequest) {
+	console.log("Stripe Webhook Triggered");
 	try {
-		// Validate environment at the start of each request
 		validateEnvironment();
-
-		// Ensure database connection
 		await connectDB();
 
-		// Extract signature and raw body
 		const signature = req.headers.get("stripe-signature");
 		if (!signature) {
 			return NextResponse.json(
@@ -50,7 +46,6 @@ export async function POST(req: NextRequest) {
 		const rawBody = await req.text();
 		let event: Stripe.Event;
 
-		// Verify webhook signature
 		try {
 			event = stripe.webhooks.constructEvent(
 				rawBody,
@@ -65,11 +60,9 @@ export async function POST(req: NextRequest) {
 			);
 		}
 
-		// Extract payment intent and event type
 		const { type, data } = event;
 		const paymentIntent = data.object as Stripe.PaymentIntent;
 
-		// Handle different event types
 		switch (type) {
 			case "payment_intent.succeeded":
 				await handleSuccessfulPayment(paymentIntent);
@@ -77,6 +70,30 @@ export async function POST(req: NextRequest) {
 
 			case "payment_intent.payment_failed":
 				await handleFailedPayment(paymentIntent);
+				break;
+
+			case "charge.succeeded":
+				await handleChargeSucceeded(data.object as Stripe.Charge);
+				break;
+
+			case "charge.failed":
+				await handleChargeFailed(data.object as Stripe.Charge);
+				break;
+
+			case "charge.refunded":
+				await handleChargeRefunded(data.object as Stripe.Charge);
+				break;
+
+			case "payment_intent.requires_action":
+				console.log("Payment intent requires action:", paymentIntent);
+				break;
+
+			case "payment_intent.created":
+				console.log("payment_intent.created", paymentIntent);
+				break;
+
+			case "charge.updated":
+				console.log("charge.updated:", paymentIntent);
 				break;
 
 			default:
@@ -96,10 +113,9 @@ export async function POST(req: NextRequest) {
 	}
 }
 
-// Dedicated handler for successful payments
+// Handlers for various events
 async function handleSuccessfulPayment(paymentIntent: Stripe.PaymentIntent) {
 	try {
-		// Find the corresponding payment record
 		const payment = await Payment.findOne({
 			transactionId: paymentIntent.id,
 		});
@@ -112,17 +128,15 @@ async function handleSuccessfulPayment(paymentIntent: Stripe.PaymentIntent) {
 			return;
 		}
 
-		// Update payment status
 		await Payment.findOneAndUpdate(
 			{ transactionId: paymentIntent.id },
 			{
 				paymentStatus: "succeeded",
 				paidAt: new Date(),
-				amount: paymentIntent.amount / 100, // Convert cents to dollars
+				amount: paymentIntent.amount / 100,
 			}
 		);
 
-		// Attempt to enroll user in course
 		const enrollmentResult = await enrollUserInCourse(
 			payment.userId,
 			payment.courseId
@@ -131,15 +145,12 @@ async function handleSuccessfulPayment(paymentIntent: Stripe.PaymentIntent) {
 		if (!enrollmentResult.success) {
 			logError("Course Enrollment", enrollmentResult.message);
 		}
-
-		// Optional: Send confirmation email or trigger additional notifications
-		// await sendConfirmationEmail(payment.userId, payment.courseId);
+		console.log("payment succeeded:", paymentIntent);
 	} catch (err) {
 		logError("Successful Payment Processing", err);
 	}
 }
 
-// Dedicated handler for failed payments
 async function handleFailedPayment(paymentIntent: Stripe.PaymentIntent) {
 	try {
 		await Payment.findOneAndUpdate(
@@ -152,10 +163,35 @@ async function handleFailedPayment(paymentIntent: Stripe.PaymentIntent) {
 				failedAt: new Date(),
 			}
 		);
-
-		// Optional: Notify user about payment failure
-		// await sendPaymentFailureNotification(payment.userId);
+		console.log("payment failed:", paymentIntent);
 	} catch (err) {
 		logError("Failed Payment Processing", err);
+	}
+}
+
+async function handleChargeSucceeded(charge: Stripe.Charge) {
+	try {
+		console.log("Charge succeeded:", charge);
+		// Add specific logic for charge success, if applicable
+	} catch (err) {
+		logError("Charge Succeeded Processing", err);
+	}
+}
+
+async function handleChargeFailed(charge: Stripe.Charge) {
+	try {
+		console.log("Charge failed:", charge);
+		// Add specific logic for charge failure
+	} catch (err) {
+		logError("Charge Failed Processing", err);
+	}
+}
+
+async function handleChargeRefunded(charge: Stripe.Charge) {
+	try {
+		console.log("Charge refunded:", charge);
+		// Add specific logic for refund handling
+	} catch (err) {
+		logError("Charge Refunded Processing", err);
 	}
 }
