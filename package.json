@@ -47,6 +47,7 @@
     "qrcode.react": "^4.1.0",
     "react": "^18",
     "react-dom": "^18",
+    "recharts": "^2.14.1",
     "resend": "^4.0.1",
     "stripe": "^17.4.0",
     "svix": "^1.31.0",

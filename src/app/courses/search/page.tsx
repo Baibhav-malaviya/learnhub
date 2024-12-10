@@ -16,6 +16,7 @@ import {
 import { Button } from "@/components/ui/button"; // Assuming you have a Button component in your project
 import { formatNumberWithCommas } from "@/utils/commonFunc";
 import { ICourse } from "@/model/course.model";
+import CategoriesOverview from "@/components/CategoryOverview";
 
 function SearchCourse() {
 	const searchParams = useSearchParams();
@@ -85,6 +86,14 @@ function SearchCourse() {
 	const clearFilters = () => {
 		router.push(`/courses/search?query=${query}`);
 	};
+
+	if (query === "")
+		return (
+			<Section className="container">
+				<SearchInput inputValue={query!} />
+				<CategoriesOverview />
+			</Section>
+		);
 
 	return (
 		<Section className="container">

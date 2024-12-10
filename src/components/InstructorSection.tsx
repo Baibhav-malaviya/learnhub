@@ -6,19 +6,19 @@ import Section from "./myComponents/Section";
 const instructors: Instructor[] = [
 	{
 		id: "1",
-		name: "Dr. Jane Smith",
-		bio: "Expert in Data Science and Machine Learning.",
+		name: "Preenu mittan",
+		bio: "Expert in MERN",
 		profilePictureUrl: "/images/instructor.jpg",
 		courses: [
 			{
 				id: "1",
-				title: "Introduction to Machine Learning",
-				slug: "/courses/machine-learning",
+				title: "Node beginner to advance",
+				slug: "Node js beginner",
 			},
 			{
 				id: "2",
-				title: "Advanced Data Science",
-				slug: "/courses/data-science",
+				title: "React  and intro to Next js",
+				slug: "react and next js",
 			},
 		],
 	},
@@ -31,12 +31,30 @@ const instructors: Instructor[] = [
 			{
 				id: "3",
 				title: "JavaScript for Beginners",
-				slug: "/courses/javascript",
+				slug: "Javascript",
 			},
 			{
 				id: "4",
-				title: "Full-Stack Web Development",
-				slug: "/courses/web-development",
+				title: "Testing title",
+				slug: "testing",
+			},
+		],
+	},
+	{
+		id: "3",
+		name: "Ansh gupta",
+		bio: "Specialist of backchodi.",
+		profilePictureUrl: "/images/instructor.jpg",
+		courses: [
+			{
+				id: "5",
+				title: "Backchod beginner class",
+				slug: "Javascript",
+			},
+			{
+				id: "6",
+				title: "Backchod advance class",
+				slug: "testing",
 			},
 		],
 	},

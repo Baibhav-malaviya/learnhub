@@ -3,6 +3,7 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import SearchInput from "./SearchInput";
+import Link from "next/link";
 
 const MergedHero = () => {
 	return (
@@ -25,12 +26,16 @@ const MergedHero = () => {
 
 				<SearchInput />
 				<div className="flex justify-center space-x-4">
-					<Button variant="default" size="lg">
-						Explore Courses
-					</Button>
-					<Button variant="secondary" size="lg">
-						Learn More
-					</Button>
+					<Link href="/courses/search?query=">
+						<Button variant="default" size="lg">
+							Explore Courses
+						</Button>
+					</Link>
+					<Link href="/courses/search?query=">
+						<Button variant="secondary" size="lg">
+							Learn More
+						</Button>
+					</Link>
 				</div>
 			</div>
 		</section>
@@ -38,3 +43,5 @@ const MergedHero = () => {
 };
 
 export default MergedHero;
+
+// router.push(`/courses/search?query=${generateSlug(query)}`);

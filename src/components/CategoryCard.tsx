@@ -15,7 +15,7 @@ const CategoryCard = ({ title, icon, description }: CategoryCardProps) => {
 	const slug = generateSlug(title);
 
 	return (
-		<Link href={`/courses/${slug}`} passHref>
+		<Link href={`/courses/search?query=${slug}`} passHref>
 			<Card
 				className={cn(
 					"relative overflow-hidden rounded-md w-64 h-auto",

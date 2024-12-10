@@ -36,11 +36,11 @@ interface Testimonial {
 }
 
 const TestimonialsSection = () => (
-	<Section className=" container ">
+	<Section className=" container">
 		<h2 className="text-2xl font-bold text-center mb-6">
 			What Our Students Say
 		</h2>
-		<div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+		<div className="w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
 			{testimonials.map((testimonial) => (
 				<TestimonialCard
 					key={testimonial.id}

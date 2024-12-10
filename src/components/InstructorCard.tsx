@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Card, CardContent, CardFooter } from "./ui/card";
+import { generateSlug } from "@/utils/commonFunc";
 
 interface Course {
 	id: string;
@@ -43,7 +44,7 @@ const InstructorCard: React.FC<InstructorCardProps> = ({ instructor }) => (
 					<li key={course.id} className="flex items-center">
 						<span className="text-primary mr-2">•</span>
 						<Link
-							href={`/courses/${course.slug}`}
+							href={`/courses/search?query=${generateSlug(course.slug)}`}
 							className="text-primary hover:underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
 						>
 							{course.title}

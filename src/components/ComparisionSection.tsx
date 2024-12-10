@@ -40,9 +40,8 @@ const FeatureComparison = () => {
 					</Card>
 
 					<Card className="relative overflow-hidden hover:hover-card">
-						<div className="absolute inset-0 bg-gradient-to-bl from-secondary via-secondary/20  to-transparent "></div>
 						<CardHeader className="relative">
-							<h3 className="text-xl md:text-2xl font-semibold text-center text-secondary">
+							<h3 className="text-xl md:text-2xl font-semibold text-center text-primary">
 								Learnhub
 							</h3>
 						</CardHeader>
@@ -56,8 +55,8 @@ const FeatureComparison = () => {
 									"Industry-recognized certifications",
 								].map((text, index) => (
 									<li key={index} className="flex items-center space-x-3">
-										<div className="rounded-full p-1 bg-secondary/20">
-											<Check className="w-5 h-5 text-secondary stroke-[3]" />
+										<div className="rounded-full p-1 bg-green-200">
+											<Check className="w-5 h-5 text-green-500 stroke-[2]" />
 										</div>
 										<span className="text-sm md:text-base">{text}</span>
 									</li>
