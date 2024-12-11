@@ -16,17 +16,17 @@ export async function GET(req: NextRequest) {
 		const limit = Math.min(Math.max(1, parseInt(limitParam, 10)), 50);
 
 		// Prepare caching key
-		const cacheKey = `courses_search_${query}_${limit}`;
+		// const cacheKey = `courses_search_${query}_${limit}`;
 
-		// Check Redis cache
-		const cachedCourses = await redis.get(cacheKey);
-		if (cachedCourses) {
-			return NextResponse.json({
-				message: "Courses fetched successfully (from cache)",
-				success: true,
-				courses: JSON.parse(cachedCourses),
-			});
-		}
+		// // Check Redis cache
+		// const cachedCourses = await redis.get(cacheKey);
+		// if (cachedCourses) {
+		// 	return NextResponse.json({
+		// 		message: "Courses fetched successfully (from cache)",
+		// 		success: true,
+		// 		courses: JSON.parse(cachedCourses),
+		// 	});
+		// }
 
 		// Prepare filter for text search
 		const filter = query ? { $text: { $search: query } } : {};
@@ -45,12 +45,12 @@ export async function GET(req: NextRequest) {
 			);
 
 		// Cache the results
-		await redis.set(
-			cacheKey,
-			JSON.stringify(courses),
-			"EX",
-			3600 // 1 hour cache
-		);
+		// await redis.set(
+		// 	cacheKey,
+		// 	JSON.stringify(courses),
+		// 	"EX",
+		// 	3600 // 1 hour cache
+		// );
 
 		return NextResponse.json(
 			{
