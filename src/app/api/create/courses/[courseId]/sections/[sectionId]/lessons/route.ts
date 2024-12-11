@@ -12,6 +12,7 @@ export async function POST(
 	{ params }: { params: { courseId: string; sectionId: string } }
 ) {
 	try {
+		connectDB();
 		const { courseId, sectionId } = params;
 
 		// Parse formData
