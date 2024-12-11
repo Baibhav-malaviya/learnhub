@@ -17,6 +17,8 @@ import { Button } from "@/components/ui/button"; // Assuming you have a Button c
 import { formatNumberWithCommas } from "@/utils/commonFunc";
 import { ICourse } from "@/model/course.model";
 import CategoriesOverview from "@/components/CategoryOverview";
+import { CourseEmptyState } from "../Components/CourseEmptyState";
+import { CourseLoader } from "@/components/CourseLoader";
 
 function SearchCourse() {
 	const searchParams = useSearchParams();
@@ -191,7 +193,7 @@ function SearchCourse() {
 
 			{/* Loading Spinner */}
 			{isLoading ? (
-				<Loader /> // Show spinner while loading
+				<CourseLoader />
 			) : (
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 					{/* Display the courses */}
@@ -200,7 +202,7 @@ function SearchCourse() {
 							<CourseCard key={idx} course={course} />
 						))
 					) : (
-						<p>No courses found.</p>
+						<CourseEmptyState />
 					)}
 				</div>
 			)}

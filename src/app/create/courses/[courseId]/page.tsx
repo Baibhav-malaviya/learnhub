@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { ISection } from "@/model/course.model"; // Adjust the import path as needed
 import AddSectionForm from "../../components/AddSectionForm";
 import Section from "../../components/DisplaySection";
+import { ErrorState } from "../../components/Analytics/ErrorState";
+import { Loader } from "lucide-react";
 
 const CoursePage = ({ params }: { params: { courseId: string } }) => {
 	const courseId = params.courseId;
@@ -37,8 +39,15 @@ const CoursePage = ({ params }: { params: { courseId: string } }) => {
 	};
 
 	if (loading)
-		return <div className="bg-primary-foreground p-4">Loading...</div>;
-	if (error) return <div>{error}</div>;
+		return (
+			<div className="bg-secondary p-4 flex items-center justify-center">
+				<div className="flex gap-x-2">
+					<Loader className="animate-spin" />
+					<span className="font-semibold">Loading...</span>
+				</div>
+			</div>
+		);
+	if (error) return <ErrorState error={error} />;
 
 	return (
 		<div>

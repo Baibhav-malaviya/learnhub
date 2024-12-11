@@ -26,6 +26,9 @@ const SubmitButton: React.FC<SubmitButtonProps> = ({
 				isLoading ? "opacity-70 cursor-not-allowed" : ""
 			} ${className}`}
 			disabled={isLoading}
+			onClick={(e) => {
+				e.stopPropagation();
+			}}
 		>
 			{isLoading ? (
 				<>

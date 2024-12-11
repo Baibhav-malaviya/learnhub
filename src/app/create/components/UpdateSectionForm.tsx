@@ -28,6 +28,7 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
 
 	const handleUpdateSection = async (e: React.FormEvent) => {
 		e.preventDefault();
+		e.stopPropagation();
 		setIsLoading(true);
 		setError(null);
 
@@ -64,7 +65,14 @@ const UpdateSectionForm: React.FC<UpdateSectionFormProps> = ({
 					type="text"
 					id={`title-${sectionId}`}
 					value={title}
-					onChange={(e) => setTitle(e.target.value)}
+					onChange={(e) => {
+						e.stopPropagation();
+						setTitle(e.target.value);
+					}}
+					onClick={(e) => {
+						e.preventDefault();
+						e.stopPropagation();
+					}}
 					required
 					placeholder="Enter section title"
 				/>

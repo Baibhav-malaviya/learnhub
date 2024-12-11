@@ -29,6 +29,9 @@ import {
 	ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useEffect, useState, useRef } from "react";
+import AnalyticsSkeleton from "../components/Analytics/Skeleton";
+import { ErrorState } from "../components/Analytics/ErrorState";
+import { EmptyState } from "../components/Analytics/EmptyState";
 
 interface MonthlyData {
 	month: string;
@@ -218,10 +221,10 @@ export default function CourseAnalyticsPage() {
 		};
 	}).filter((data) => selectedMonths.includes(data.month));
 
-	if (loading) return <div>Loading analytics...</div>;
-	if (error) return <div>Error: {error}</div>;
-	if (!analytics || analytics.length === 0)
-		return <div>No analytics data available</div>;
+	if (loading) return <AnalyticsSkeleton />;
+
+	if (error) return <ErrorState error={error} />;
+	if (!analytics || analytics.length === 0) return <EmptyState />;
 
 	const completionRate = currentCourseAnalytics
 		? (currentCourseAnalytics.studentsCompleted /
