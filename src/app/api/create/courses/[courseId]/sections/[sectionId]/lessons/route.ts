@@ -117,7 +117,7 @@ export async function POST(
 	} catch (error) {
 		console.error("Error adding lesson:", error);
 		return NextResponse.json(
-			{ error: "Failed to add lesson" },
+			{ error: `Failed to add lesson $` },
 			{ status: 500 }
 		);
 	}

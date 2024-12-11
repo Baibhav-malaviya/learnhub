@@ -18,6 +18,7 @@ const Section: React.FC<SectionProps> = ({ sectionId, sectionData }) => {
 
 	const handleToggleEdit = (e: any) => {
 		e.preventDefault();
+		e.stopPropagation();
 		setIsEditing((prev) => !prev);
 	};
 
