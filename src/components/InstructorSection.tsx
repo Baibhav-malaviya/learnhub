@@ -43,18 +43,18 @@ const instructors: Instructor[] = [
 	{
 		id: "3",
 		name: "Ansh gupta",
-		bio: "Specialist of backchodi.",
+		bio: "Specialist of Poem.",
 		profilePictureUrl: "/images/instructor.jpg",
 		courses: [
 			{
 				id: "5",
-				title: "Backchod beginner class",
-				slug: "Javascript",
+				title: "अलंकार (Alankar)",
+				slug: "Alankar",
 			},
 			{
 				id: "6",
-				title: "Backchod advance class",
-				slug: "testing",
+				title: "Ras (रास)",
+				slug: "ras",
 			},
 		],
 	},
